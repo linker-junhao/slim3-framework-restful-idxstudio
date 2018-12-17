@@ -1,0 +1,16 @@
+{% extends "layout.twig" %}
+{% import 'MACROS.twig' as MACROS %}
+{% block styles %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="">
+    <link rel="stylesheet" href="{{ MACROS.appsSiteName }}/src/style/redirect_to_app.css"/>
+
+{% endblock %}
+{% block body %}
+    <h4>5秒后前往目标应用</h4>
+    <script>
+        setTimeout(function () {
+            window.location.href = "{{ redirectUrl }}";
+        }, 5000);
+    </script>
+{% endblock %}
