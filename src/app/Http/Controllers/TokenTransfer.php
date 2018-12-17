@@ -21,7 +21,8 @@ class TokenTransfer extends AbstractController
      * @param array $args
      * @return Response
      */
-    public function setTokenTransfer(Request $request, Response $response, array $args){
+    public function setTokenTransfer(Request $request, Response $response, array $args)
+    {
         $tokenTransfer = new authTokenTransfer();
         $tokenTransfer->setSubAuthUrl($request->getParsedBodyParam('auth_url'))->setEnable('1')->addSubAuthDone();
         return $response;
@@ -34,11 +35,16 @@ class TokenTransfer extends AbstractController
      * @param array $args
      * @return Response
      */
-    public function tokenTransferRedirect(Request $request, Response $response, array $args){
+    public function tokenTransferRedirect(Request $request, Response $response, array $args)
+    {
         $tokenTransfer = new authTokenTransfer();
         $targetAppUrl = $tokenTransfer->getSubAuthUrlByState($request->getQueryParam('state'));
-        $token = $tokenTransfer->getYibanAccessTokenByCode($request->getQueryParam('code'));
-        $this->ci->view->render($response, 'redirectToApp.twig', array('redirectUrl' => $targetAppUrl.'?token='.$token->access_token));
+        $token = $tokenTransfer->getYibanAccessTokenByCode($request->getQueryParam('code'),
+            'c09da94882a3eefb',
+            'd5ba187dfc60ee1df04cf5c721546117',
+            'http://localhost:8888/token_transfer/distribute'
+        );
+        $this->ci->view->render($response, 'redirectToApp.twig', array('redirectUrl' => $targetAppUrl . '?token=' . $token->access_token));
         return $response;
         //return $response->withRedirect($url, 301);
     }

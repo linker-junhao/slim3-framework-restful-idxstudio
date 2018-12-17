@@ -108,14 +108,14 @@ class authTokenTransfer
         return $subAuth->where('state_value', $stateValue)->first()->sub_auth_url;
     }
 
-    public function getYibanAccessTokenByCode($code)
+    public function getYibanAccessTokenByCode($code, $client_id, $client_secret, $redirect_uri)
     {
         $url = 'https://openapi.yiban.cn/oauth/access_token';
         $token = CurlRequest::_httpPost($url, array(
                 'code' => $code,
-                'client_id' => 'c09da94882a3eefb',
-                'client_secret' => 'd5ba187dfc60ee1df04cf5c721546117',
-                'redirect_uri' => 'http://localhost:8888/token_transfer/distribute')
+                'client_id' => $client_id,
+                'client_secret' => $client_secret,
+                'redirect_uri' => $redirect_uri)
         );
 
         $tokenObj = json_decode($token);
