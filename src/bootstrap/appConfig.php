@@ -13,7 +13,7 @@ $config = [
         ],
         'db' => [
             'driver' => 'mysql',
-            'host' => 'localhost',
+            'host' => '45.78.24.43',
             'database' => 'developing',
             'username' => 'developing',
             'password' => 'dev147258',
