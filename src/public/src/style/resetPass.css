@@ -1,0 +1,48 @@
+/*主体div*/
+.main-content
+{
+    max-width:800px;
+    margin: 20px auto;
+
+}
+
+/*主体标题*/
+.main-content .main-content-title
+{
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 75px;
+}
+
+/*输入框标签*/
+.input-group-addon {
+    padding: 8px 12px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/*表单底部按钮*/
+.div-form .form-btn
+{
+    text-align: center;
+}
+
+.div-form .form-btn .btn
+{
+    margin: 10px 5px;
+}
+
+
+
+
+
+
+
