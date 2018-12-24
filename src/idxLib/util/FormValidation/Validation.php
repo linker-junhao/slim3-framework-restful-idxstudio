@@ -121,8 +121,8 @@ class Validation
         }
 
         //numeric，都是数字
-        if (preg_grep('/^(numeric:)([0-9]{0,})~([0-9]{0,})$/', $regArray)) {
-            if (!($test = $this->allNumeric($target))) {
+        if (count($pregResult = preg_grep('/^(numeric:)(-?[0-9]+)~(-?[0-9]+)$/', $regArray))) {
+            if (!($test = $this->allNumeric($target, $pregResult[0]))) {
                 $resultInfo .= ErrMsgCN::$ErrMsgCN['allNumeric'];
             }
             $testResult = $testResult && $test;
@@ -220,9 +220,13 @@ class Validation
      * @param $target
      * @return false|int
      */
-    public function allNumeric($target)
+    public function allNumeric($target, $regulation)
     {
-        return preg_match('/^[0-9]+$/', $target);
+        preg_match('/^(numeric:)(-?[0-9]{0,})~(-?[0-9]{0,})$/', $regulation, $regResult);
+        $min = intval($regResult[2]);
+        $max = intval($regResult[3]);
+        $target = intval($target);
+        return ($target >= $min) && $target && ($target <= $max);
     }
 
     /**
@@ -271,7 +275,7 @@ class Validation
         $minData = strtotime($regResult[2]);
         $maxDate = strtotime($regResult[8]);
         $targetDate = strtotime($target);
-        return ($targetDate > $minData) && ($targetDate < $maxDate) && $targetDate;
+        return ($targetDate >= $minData) && ($targetDate <= $maxDate) && $targetDate;
     }
 
     /**
@@ -285,7 +289,7 @@ class Validation
         $minData = strtotime($regResult[1]);
         $maxDate = strtotime($regResult[12]);
         $targetDate = strtotime($target);
-        return ($targetDate > $minData) && ($targetDate < $maxDate) && $targetDate;
+        return ($targetDate >= $minData) && ($targetDate <= $maxDate) && $targetDate;
     }
 
     /**
