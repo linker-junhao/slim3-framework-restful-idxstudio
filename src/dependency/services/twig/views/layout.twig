@@ -2,15 +2,16 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta lang="zh">
     <meta name="renderer" content="webkit">
     <title>{% block page_title %}{% endblock %}</title>
-
-    {% block styles %}
-    {% endblock %}
+    {% block style_tags %}{% endblock %}
+    {% block head_script_tags %}{% endblock %}
 </head>
 <body>
 {% block body %}
 
 {% endblock %}
 </body>
+{% block foot_script_tags %}{% endblock %}
 </html>
