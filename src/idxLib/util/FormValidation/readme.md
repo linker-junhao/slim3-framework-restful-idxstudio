@@ -30,21 +30,21 @@ array(
     'get'=>array(
         'get_field_name1'=>array(
             'textInfo'  =>'some valid info',
-            'status'    =>true|false
+            'status'    =>true | false
         ),
         'field_name2'=>array(
             'textInfo'  =>'some valid info',
-            'status'    =>true|false
+            'status'    =>true | false
         )
      ),
     'post'=>array(
         'post_field_name1'=>array(
             'textInfo'  =>'some valid info',
-            'status'    =>true|false
+            'status'    =>true | false
         ),
         'field_name2'=>array(
             'textInfo'  =>'some valid info',
-            'status'    =>true|false
+            'status'    =>true | false
         )
     )
 );

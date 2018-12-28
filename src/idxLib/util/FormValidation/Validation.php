@@ -21,6 +21,7 @@ class Validation
     private $files;
 
     private $resultInfo;
+    private $validResult;
 
     public function __construct(ContainerInterface $ci)
     {
@@ -73,6 +74,19 @@ class Validation
     {
         $this->ci->view->offsetSet('validErr', $this->resultInfo);
         return $this->resultInfo;
+    }
+
+    public function getIntegratedStatus()
+    {
+        $ret = true;
+        foreach ($this->resultInfo['get'] as $item) {
+            $ret = $ret && $item['status'];
+        }
+
+        foreach ($this->resultInfo['post'] as $item) {
+            $ret = $ret && $item['status'];
+        }
+        return $ret;
     }
 
     /**
