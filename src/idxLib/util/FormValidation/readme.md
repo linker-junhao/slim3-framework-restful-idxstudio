@@ -46,6 +46,9 @@ var_dump($valid->getResult());
 ##### alpha_num
 >是字母、数字
 
+##### num
+>是数字
+
 ##### phone
 >中国11位手机电话号码
 

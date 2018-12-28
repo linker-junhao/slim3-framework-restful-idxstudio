@@ -75,4 +75,12 @@ class BindViewData
             'error' => $this->error,
         );
     }
+
+    /**
+     * get a json of this object's attributions
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray());
+    }
 }

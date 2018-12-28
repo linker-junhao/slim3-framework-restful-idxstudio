@@ -19,6 +19,7 @@ class ErrMsgCN
         'allNumeric' => '只能使用数字 ',
         'allAlpha' => '只能使用英文字母 ',
         'alphaDash' => '只能使用英文字母、数字、下划线“_”和连字符“-” ',
+        'num' => '只能使用数字 ',
         'alphaNum' => '只能使用英文字母和数字 ',
         'phone' => '中国手机号码 ',
         'date' => '不在规定日期区间内或不符合“YYYY-MM-DD”格式 ',
