@@ -252,7 +252,7 @@ class Validation
      */
     public function alphaNum($target)
     {
-        return preg_match('/^[a-zA-Z0-9]$/', $target);
+        return preg_match('/^[a-zA-Z0-9]+$/', $target);
     }
 
     /**
