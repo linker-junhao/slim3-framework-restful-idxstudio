@@ -21,6 +21,7 @@ class Validation
     private $files;
 
     private $resultInfo;
+    private $validResult;
 
     public function __construct(ContainerInterface $ci)
     {
@@ -73,6 +74,19 @@ class Validation
     {
         $this->ci->view->offsetSet('validErr', $this->resultInfo);
         return $this->resultInfo;
+    }
+
+    public function getIntegratedStatus()
+    {
+        $ret = true;
+        foreach ($this->resultInfo['get'] as $item) {
+            $ret = $ret && $item['status'];
+        }
+
+        foreach ($this->resultInfo['post'] as $item) {
+            $ret = $ret && $item['status'];
+        }
+        return $ret;
     }
 
     /**
@@ -219,14 +233,24 @@ class Validation
 
     /**
      * @param $target
+     * @param $regulation
      * @return false|int
      */
     public function allNumeric($target, $regulation)
     {
         preg_match('/^(numeric:)(-?[0-9]{0,})~(-?[0-9]{0,})$/', $regulation, $regResult);
+        $target = intval($target);
+        if ($regResult[2] == '-0' && $regResult[3] == '-0') {
+            return $target;
+        } elseif ($regResult[2] == '-0') {
+            return $target <= intval($regResult[3]);
+        } elseif ($regResult[3] == '-0') {
+            return $target <= intval($regResult[2]);
+        }
+
         $min = intval($regResult[2]);
         $max = intval($regResult[3]);
-        $target = intval($target);
+
         return ($target >= $min) && $target && ($target <= $max);
     }
 
@@ -241,6 +265,8 @@ class Validation
 
     /**
      * alpha_dash，可以是英文、数字、下划线(_)和短横线(-)
+     * @param $target
+     * @return false|int
      */
     public function alphaDash($target)
     {

@@ -24,6 +24,32 @@ $valid->setQueryParamRegulation(array(
 var_dump($valid->getResult());
 ```
 
+### 绑定到视图的数据
+``` PHP
+array(
+    'get'=>array(
+        'get_field_name1'=>array(
+            'textInfo'  =>'some valid info',
+            'status'    =>true | false
+        ),
+        'field_name2'=>array(
+            'textInfo'  =>'some valid info',
+            'status'    =>true | false
+        )
+     ),
+    'post'=>array(
+        'post_field_name1'=>array(
+            'textInfo'  =>'some valid info',
+            'status'    =>true | false
+        ),
+        'field_name2'=>array(
+            'textInfo'  =>'some valid info',
+            'status'    =>true | false
+        )
+    )
+);
+```
+
 ### 规则
 ##### required
 >表示该项必须有值
@@ -36,6 +62,9 @@ var_dump($valid->getResult());
 
 ##### numeric:min~max
 >min表示最小值，max表示最大值，都应该为数字形式，可以为负数，用~符号分开表示区间
+>
+>min或max为“-0”表示不限制下限或上限
+
 
 ##### alpha
 >英文字母
@@ -45,9 +74,6 @@ var_dump($valid->getResult());
 
 ##### alpha_num
 >是字母、数字
-
-##### num
->是数字
 
 ##### phone
 >中国11位手机电话号码
