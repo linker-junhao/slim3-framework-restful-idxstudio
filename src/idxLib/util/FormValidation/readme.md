@@ -22,6 +22,10 @@ $valid->setQueryParamRegulation(array(
 
 //获取验证结果
 var_dump($valid->getResult());
+
+//获取所有验证的整合状态，只要有一项未通过验证就会返回false
+var_dump($valid->getIntegratedStatus());
+
 ```
 
 ### 绑定到视图的数据
