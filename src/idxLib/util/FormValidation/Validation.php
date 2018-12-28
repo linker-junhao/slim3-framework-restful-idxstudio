@@ -21,7 +21,7 @@ class Validation
     private $files;
 
     private $resultInfo;
-    private $validResult;
+    private $integratedResult;
 
     public function __construct(ContainerInterface $ci)
     {
@@ -33,6 +33,7 @@ class Validation
             'get' => array(),
             'post' => array()
         );
+        $this->integratedResult = true;
     }
 
 
@@ -78,15 +79,7 @@ class Validation
 
     public function getIntegratedStatus()
     {
-        $ret = true;
-        foreach ($this->resultInfo['get'] as $item) {
-            $ret = $ret && $item['status'];
-        }
-
-        foreach ($this->resultInfo['post'] as $item) {
-            $ret = $ret && $item['status'];
-        }
-        return $ret;
+        return $this->integratedResult;
     }
 
     /**
@@ -201,6 +194,7 @@ class Validation
 
         $resultArray['textInfo'] = $resultInfo;
         $resultArray['status'] = $testResult;
+        $this->integratedResult = $testResult;
         return $testResult;
     }
 
