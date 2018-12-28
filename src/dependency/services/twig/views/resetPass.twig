@@ -26,7 +26,7 @@
 
                 <div class="form-group input-group">
                     <span class="input-group-addon">学号 :</span>
-                    <input type="number" class="form-control" name="stu_id" id="stu_id" placeholder="输入学号用于重置账号" maxlength="10" required>
+                    <input type="number" class="form-control" name="stu_id" id="stu_id" placeholder="输入学号用于重置账号" minlength="10" maxlength="10" required>
                 </div>
 
                 {% if validErr.post.stu_id.status == false %}
@@ -42,7 +42,7 @@
                 {% endif %}
                 <div class="form-group input-group">
                     <span class="input-group-addon">电话号码 :</span>
-                    <input type="number" class="form-control" name="old_phone" placeholder="当前账号绑定的电话号码(非必填，有此项处理更快)" maxlength="14">
+                    <input type="number" class="form-control" name="old_phone" placeholder="当前账号绑定的电话号码(非必填，有此项处理更快)"  minlength="11" maxlength="11">
                 </div>
                 {% if validErr.post.old_phone.status == false %}
                     <p class="valid-alert small">{{ validErr.post.old_phone.textInfo }}</p>
