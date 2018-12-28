@@ -3,10 +3,18 @@
 {% block style_tags %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="">
-    <link rel="stylesheet" href="{{ MACROS.appsSiteName }}/src/style/apps.css"/>
-    <link rel="stylesheet" href="{{ MACROS.appsSiteName }}/src/node_modules/bootstrap/dist/css/bootstrap.css"/>
-    <link rel="stylesheet" href="{{ MACROS.appsSiteName }}/src/node_modules/bootstrap/dist/js/bootstrap.js"/>
-    <link rel="stylesheet" href="{{ MACROS.appsSiteName }}/src/style/resetPass.css"/>
+    <link rel="stylesheet" href="{{ MACROS.appsSiteName }}src/style/apps.css"/>
+    <link rel="stylesheet" href="{{ MACROS.appsSiteName }}src/style/resetPass.css"/>
+    <link rel="stylesheet" href="{{ MACROS.appsSiteName }}src/bootstrap/css/bootstrap.min.css"/>
+
+    <script src="{{ MACROS.appsSiteName }}src/js/jquery-3.3.1.min.js"></script>
+    {#<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>#}
+    <script src="{{ MACROS.appsSiteName }}src/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ MACROS.appsSiteName }}src/bootstrap/js/bootstrap.min.js"></script>
+
+    {#<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>#}
+    {#<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>#}
+    {#<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>#}
 {% endblock %}
 
 {% block body %}
@@ -21,16 +29,16 @@
                     <input type="text" class="form-control" name="stu_name" placeholder="输入姓名" maxlength="20" required>
                 </div>
                 {% if validErr.post.stu_name.status == false %}
-                    <p class="valid-alert small">{{ validErr.post.stu_name.textInfo }}</p>
+                    <p class="red small">{{ validErr.post.stu_name.textInfo }}</p>
                 {% endif %}
 
                 <div class="form-group input-group">
                     <span class="input-group-addon">学号 :</span>
-                    <input type="number" class="form-control" name="stu_id" id="stu_id" placeholder="输入学号用于重置账号" minlength="10" maxlength="10" required>
+                    <input type="text" class="form-control" name="stu_id" id="stu_id" placeholder="输入学号用于重置账号" minlength="10" maxlength="10" required>
                 </div>
 
                 {% if validErr.post.stu_id.status == false %}
-                    <p class="valid-alert small">{{ validErr.post.stu_id.textInfo }}</p>
+                    <p class="red small">{{ validErr.post.stu_id.textInfo }}</p>
                 {% endif %}
 
                 <div class="form-group input-group">
@@ -38,15 +46,16 @@
                     <input type="email" class="form-control" name="stu_email" placeholder="联系邮箱，建议使用qq邮箱" maxlength="50" required>
                 </div>
                 {% if validErr.post.stu_email.status == false %}
-                    <p class="valid-alert small">{{ validErr.post.stu_email.textInfo }}</p>
+                    <p class="red small">{{ validErr.post.stu_email.textInfo }}</p>
                 {% endif %}
                 <div class="form-group input-group">
                     <span class="input-group-addon">电话号码 :</span>
-                    <input type="number" class="form-control" name="old_phone" placeholder="当前账号绑定的电话号码(非必填，有此项处理更快)"  minlength="11" maxlength="11">
+                    <input type="tel" class="form-control" name="old_phone" placeholder="当前账号绑定的电话号码(非必填，有此项处理更快)">
                 </div>
                 {% if validErr.post.old_phone.status == false %}
-                    <p class="valid-alert small">{{ validErr.post.old_phone.textInfo }}</p>
+                    <p class="red small">{{ validErr.post.old_phone.textInfo }}</p>
                 {% endif %}
+
 
                 <div class="form-group input-group">
                     <span class="input-group-addon">其他 :</span>
@@ -60,7 +69,42 @@
         </div>
     </div>
 
-    </div>
+    <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <!-- 模态框头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">消息提示</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- 模态框主体 -->
+                    <div class="modal-body">
+
+                        {% if status == 'success' %}
+                            <div class="alert alert-success">{{ data }}</div>
+                        {% elseif status == 'error' %}
+                            <div class="alert alert-warning">{{ error }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- 模态框底部 -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    {% if status %}
+        <script>
+            $('#myModal').modal()
+        </script>
+
+    {% endif %}
+
 
 
 
