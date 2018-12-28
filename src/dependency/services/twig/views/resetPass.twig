@@ -24,36 +24,37 @@
         </div>
         <div class="div-form">
             <form method="POST" name="resetPwdForm" class="reset-pwd-form" action="./resetPass">
-                <div class="form-group input-group">
+
+                <div class="form-group input-group {% if validErr.post.stu_name.status == false %}has-error{% endif %}">
                     <span class="input-group-addon">姓名 :</span>
                     <input type="text" class="form-control" name="stu_name" placeholder="输入姓名" maxlength="20" required>
                 </div>
                 {% if validErr.post.stu_name.status == false %}
-                    <p class="red small">{{ validErr.post.stu_name.textInfo }}</p>
+                    <p class="valid-alert small">{{ validErr.post.stu_name.textInfo }}</p>
                 {% endif %}
 
-                <div class="form-group input-group">
+                <div class="form-group input-group {% if validErr.post.stu_id.status == false %}has-error{% endif %}">
                     <span class="input-group-addon">学号 :</span>
                     <input type="text" class="form-control" name="stu_id" id="stu_id" placeholder="输入学号用于重置账号" minlength="10" maxlength="10" required>
                 </div>
-
                 {% if validErr.post.stu_id.status == false %}
-                    <p class="red small">{{ validErr.post.stu_id.textInfo }}</p>
+                    <p class="valid-alert small">{{ validErr.post.stu_id.textInfo }}</p>
                 {% endif %}
 
-                <div class="form-group input-group">
+                <div class="form-group input-group {% if validErr.post.stu_email.status == false %}has-error{% endif %}">
                     <span class="input-group-addon">邮箱 :</span>
                     <input type="email" class="form-control" name="stu_email" placeholder="联系邮箱，建议使用qq邮箱" maxlength="50" required>
                 </div>
                 {% if validErr.post.stu_email.status == false %}
-                    <p class="red small">{{ validErr.post.stu_email.textInfo }}</p>
+                    <p class="valid-alert small">{{ validErr.post.stu_email.textInfo }}</p>
                 {% endif %}
-                <div class="form-group input-group">
+
+                <div class="form-group input-group {% if validErr.post.old_phone.status == false %}has-error{% endif %}">
                     <span class="input-group-addon">电话号码 :</span>
-                    <input type="tel" class="form-control" name="old_phone" placeholder="当前账号绑定的电话号码(非必填，有此项处理更快)">
+                    <input type="text" class="form-control" name="old_phone" placeholder="当前账号绑定的电话号码(非必填，有此项处理更快)" minlength="10" maxlength="10">
                 </div>
                 {% if validErr.post.old_phone.status == false %}
-                    <p class="red small">{{ validErr.post.old_phone.textInfo }}</p>
+                    <p class="valid-alert small">{{ validErr.post.old_phone.textInfo }}</p>
                 {% endif %}
 
 

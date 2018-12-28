@@ -90,36 +90,38 @@ class ResetPass extends AbstractController
         ))->validDone();
 
         //获取验证结果
-//        var_dump($valid->getResult());
+        if($valid->getIntegratedStatus()){
+            $ORMYbResetPass = New YbResetPass();
+            $ybResetPass = $ORMYbResetPass->where('stu_id', '=', $stu_id)->first();
+            if($ybResetPass){ //如果已经提交还未处理
+                //状态为未处理时
+                if($this->NOT_DEAL_CODE_NUM === intval($ybResetPass->deal_code)){
+
+                    $this->viewData->setData('你已提交过充值密码请求，正在处理中！');
+                    $this->viewData->setStatus('success');
+                }
+            } else{
 
 
-        $ORMYbResetPass = New YbResetPass();
-        $ybResetPass = $ORMYbResetPass->where('stu_id', '=', $stu_id)->first();
-        if($ybResetPass){ //如果已经提交还未处理
-            //状态为未处理时
-            if($this->NOT_DEAL_CODE_NUM === intval($ybResetPass->deal_code)){
+                $ORMYbResetPass->stu_id = $stu_id;
+                $ORMYbResetPass->stu_name = $stu_name;
+                $ORMYbResetPass->stu_email = $stu_email;
+                $ORMYbResetPass->old_phone = $old_phone;
+                $ORMYbResetPass->extra_info = $extra_info;
+                if($ORMYbResetPass->save()){
 
-                $this->viewData->setData('你已提交过充值密码请求，正在处理中！');
-                $this->viewData->setStatus('success');
-            }
-        }else{
+                    $this->viewData->setData('重置密码申请提交成功！');
+                    $this->viewData->setStatus('success');
+                }else{
 
-
-            $ORMYbResetPass->stu_id = $stu_id;
-            $ORMYbResetPass->stu_name = $stu_name;
-            $ORMYbResetPass->stu_email = $stu_email;
-            $ORMYbResetPass->old_phone = $old_phone;
-            $ORMYbResetPass->extra_info = $extra_info;
-            if($ORMYbResetPass->save()){
-
-                $this->viewData->setData('重置密码申请提交成功！');
-                $this->viewData->setStatus('success');
-            }else{
-
-                $this->viewData->setData('重置密码申请提交失败，请稍后重试！');
-                $this->viewData->setStatus('error');
+                    $this->viewData->setData('重置密码申请提交失败，请稍后重试！');
+                    $this->viewData->setStatus('error');
+                }
             }
         }
+
+
+
 
 
         var_dump($valid->getResult());
