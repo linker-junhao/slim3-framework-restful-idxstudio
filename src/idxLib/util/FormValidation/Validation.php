@@ -122,7 +122,8 @@ class Validation
 
         //numeric，都是数字
         if (count($pregResult = preg_grep('/^(numeric:)(-?[0-9]+)~(-?[0-9]+)$/', $regArray))) {
-            if (!($test = $this->allNumeric($target, $pregResult[0]))) {
+            var_dump($pregResult);
+            if (!($test = $this->allNumeric($target, $pregResult[1]))) {
                 $resultInfo .= ErrMsgCN::$ErrMsgCN['allNumeric'];
             }
             $testResult = $testResult && $test;
@@ -152,14 +153,6 @@ class Validation
             $testResult = $testResult && $test;
         }
 
-        //alpha_num，必须完全是数字。
-        if (in_array('num', $regArray)) {
-            if (!($test = $this->num($target))) {
-                $resultInfo .= ErrMsgCN::$ErrMsgCN['num'];
-            }
-            $testResult = $testResult && $test;
-        }
-
         //phone，电话号码
         if (in_array('phone', $regArray)) {
             if (!($test = $this->phone($target))) {
@@ -170,7 +163,7 @@ class Validation
 
         //date，日期
         if (count($pregResult = preg_grep('/^(date:)([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31))~([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31))$/', $regArray))) {
-            if (!($test = $this->date($target, $pregResult[0]))) {
+            if (!($test = $this->date($target, $pregResult[1]))) {
                 $resultInfo .= ErrMsgCN::$ErrMsgCN['date'];
             }
             $testResult = $testResult && $test;
@@ -178,8 +171,7 @@ class Validation
 
         //datetime，日期时间
         if (count($pregResult = preg_grep('/^(datetime:)(([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31)) ((0|1)[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9]))~(([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31)) ((0|1)[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9]))$/', $regArray))) {
-            $testResult = $testResult && $this->dateTime($target, $pregResult[0]);
-            if (!($test = $this->dateTime($target, $pregResult[0]))) {
+            if (!($test = $this->dateTime($target, $pregResult[1]))) {
                 $resultInfo .= ErrMsgCN::$ErrMsgCN['dateTime'];
             }
             $testResult = $testResult && $test;
@@ -261,15 +253,6 @@ class Validation
     public function alphaNum($target)
     {
         return preg_match('/^[a-zA-Z0-9]+$/', $target);
-    }
-
-    /**
-     * @param $target
-     * @return false|int
-     */
-    public function num($target)
-    {
-        return preg_match('/^[0-9]+$/', $target);
     }
 
     /**
