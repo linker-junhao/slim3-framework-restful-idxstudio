@@ -2,3 +2,4 @@ vendor/*
 .idea/*
 tests/*
 logs/*
+dependency/services/twig/cache/*
