@@ -34,6 +34,8 @@ class Validation
         );
     }
 
+
+
     /**
      * set get query parameters valid regulation
      * @param array $regulation
