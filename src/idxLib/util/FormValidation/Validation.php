@@ -152,6 +152,14 @@ class Validation
             $testResult = $testResult && $test;
         }
 
+        //alpha_num，必须完全是数字。
+        if (in_array('num', $regArray)) {
+            if (!($test = $this->num($target))) {
+                $resultInfo .= ErrMsgCN::$ErrMsgCN['num'];
+            }
+            $testResult = $testResult && $test;
+        }
+
         //phone，电话号码
         if (in_array('phone', $regArray)) {
             if (!($test = $this->phone($target))) {
@@ -253,6 +261,15 @@ class Validation
     public function alphaNum($target)
     {
         return preg_match('/^[a-zA-Z0-9]$/', $target);
+    }
+
+    /**
+     * @param $target
+     * @return false|int
+     */
+    public function num($target)
+    {
+        return preg_match('/^[0-9]$/', $target);
     }
 
     /**
