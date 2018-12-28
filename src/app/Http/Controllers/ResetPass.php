@@ -124,8 +124,8 @@ class ResetPass extends AbstractController
 
 
 
-        var_dump($valid->getResult());
-        var_dump($this->viewData);
+//        var_dump($valid->getResult());
+//        var_dump($this->viewData);
 
 
         $this->ci->view->render($response, 'resetPass.twig',$this->viewData->toArray());
