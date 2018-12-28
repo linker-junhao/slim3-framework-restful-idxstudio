@@ -51,7 +51,12 @@
 }
 
 
-
+.check-reset-result{
+    text-align: center;
+}
+#qrcode{
+    margin-top: 10px;
+}
 
 
 

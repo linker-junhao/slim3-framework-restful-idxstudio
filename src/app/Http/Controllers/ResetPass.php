@@ -22,6 +22,7 @@ class ResetPass extends AbstractController
     protected $viewData;
 //    用户充值密码请求未处理标志
     protected $NOT_DEAL_CODE_NUM;
+    protected $resetViewData;
 
 
 
@@ -31,6 +32,10 @@ class ResetPass extends AbstractController
 
         $this->viewData = new BindViewData();
         $this->NOT_DEAL_CODE_NUM = 0;
+        $this->resetViewData = [
+            'message'=>'',
+            'result_check_code'=>''
+        ];
     }
 
     /**
@@ -93,28 +98,36 @@ class ResetPass extends AbstractController
         if($valid->getIntegratedStatus()){
             $ORMYbResetPass = New YbResetPass();
             $ybResetPass = $ORMYbResetPass->where('stu_id', '=', $stu_id)->first();
-            if($ybResetPass){ //如果已经提交还未处理
+            if($ybResetPass){ //如果已经提交
                 //状态为未处理时
                 if($this->NOT_DEAL_CODE_NUM === intval($ybResetPass->deal_code)){
+                    $this->resetViewData['message'] = '你已提交过重置密码请求，扫描下方二维码或点击链接查看处理进度。';
+                    $this->resetViewData['result_check_code'] = $ybResetPass->result_check_code;
+//                    var_dump($this->resetViewData['result_check_code']);
+//                    var_dump($ybResetPass->deal_code);
 
-                    $this->viewData->setData('你已提交过充值密码请求，正在处理中！');
+                    $this->viewData->setData($this->resetViewData);
                     $this->viewData->setStatus('success');
                 }
             } else{
 
 
                 $ORMYbResetPass->stu_id = $stu_id;
+                $resultCheckCode= uniqid($stu_id,true);
+                $ORMYbResetPass->result_check_code = $resultCheckCode;
                 $ORMYbResetPass->stu_name = $stu_name;
                 $ORMYbResetPass->stu_email = $stu_email;
                 $ORMYbResetPass->old_phone = $old_phone;
                 $ORMYbResetPass->extra_info = $extra_info;
                 if($ORMYbResetPass->save()){
 
-                    $this->viewData->setData('重置密码申请提交成功！');
+                    $this->resetViewData['message'] = '重置密码申请提交成功，扫描下方二维码或点击链接查看进度';
+                    $this->resetViewData['result_check_code'] = $resultCheckCode;
+                    $this->viewData->setData($this->resetViewData);
                     $this->viewData->setStatus('success');
                 }else{
-
-                    $this->viewData->setData('重置密码申请提交失败，请稍后重试！');
+                    $this->resetViewData['message'] = '重置密码申请提交失败，请稍后重试！';
+                    $this->viewData->setData($this->resetViewData);
                     $this->viewData->setStatus('error');
                 }
             }
@@ -129,6 +142,15 @@ class ResetPass extends AbstractController
 
 
         $this->ci->view->render($response, 'resetPass.twig',$this->viewData->toArray());
+        return $response;
+    }
+
+    public function resetPassResult(Request $request, Response $response, array $args){
+        $this->viewData->setStatus('success');
+        $this->resetViewData['message'] = '查询码';
+        $this->resetViewData['result_check_code'] = $request->getAttribute('route')->getArgument('result_check_code');
+        $this->viewData->setData($this->resetViewData);
+        $this->ci->view->render($response, 'resetPassResult.twig', $this->viewData->toArray());
         return $response;
     }
 }

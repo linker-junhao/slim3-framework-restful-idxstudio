@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ MACROS.appsSiteName }}src/bootstrap/css/bootstrap.min.css"/>
 
     <script src="{{ MACROS.appsSiteName }}src/js/jquery-3.3.1.min.js"></script>
+    <script src="{{ MACROS.appsSiteName }}src/js/jquery.qrcode.min.js"></script>
     {#<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>#}
     <script src="{{ MACROS.appsSiteName }}src/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="{{ MACROS.appsSiteName }}src/bootstrap/js/bootstrap.min.js"></script>
@@ -70,6 +71,8 @@
         </div>
     </div>
 
+    {#<h1>{{ data.result_check_code }}</h1>#}
+
     <div class="modal fade" id="myModal">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -84,9 +87,13 @@
                     <div class="modal-body">
 
                         {% if status == 'success' %}
-                            <div class="alert alert-success">{{ data }}</div>
+                            <div class="alert alert-success">{{ data.message }}</div>
+                            <div class="check-reset-result">
+                                <a id="resetPassResult" href="{{ MACROS.appsSiteName }}resetPassResult/{{ data.result_check_code }}">查看处理进度</a>
+                                <div id="qrcode"></div>
+                            </div>
                         {% elseif status == 'error' %}
-                            <div class="alert alert-warning">{{ error }}</div>
+                            <div class="alert alert-warning">{{ data.message }}</div>
                         {% endif %}
                     </div>
 
@@ -101,7 +108,9 @@
 
     {% if status %}
         <script>
-            $('#myModal').modal()
+            $('#myModal').modal();
+
+            $('#qrcode').qrcode({width: 200,height: 200,text: $('#resetPassResult').attr('href')});
         </script>
 
     {% endif %}
