@@ -122,7 +122,6 @@ class Validation
 
         //numeric，都是数字
         if (count($pregResult = preg_grep('/^(numeric:)(-?[0-9]+)~(-?[0-9]+)$/', $regArray))) {
-            var_dump($pregResult);
             if (!($test = $this->allNumeric($target, $pregResult[1]))) {
                 $resultInfo .= ErrMsgCN::$ErrMsgCN['allNumeric'];
             }
