@@ -1,6 +1,6 @@
 {% extends "layout.twig" %}
 {% import 'MACROS.twig' as MACROS %}
-{% block styles %}
+{% block style_tags %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="">
     <link rel="stylesheet" href="{{ MACROS.appsSiteName }}/src/style/apps.css"/>
@@ -8,35 +8,45 @@
     <link rel="stylesheet" href="{{ MACROS.appsSiteName }}/src/node_modules/bootstrap/dist/js/bootstrap.js"/>
     <link rel="stylesheet" href="{{ MACROS.appsSiteName }}/src/style/resetPass.css"/>
 {% endblock %}
+
 {% block body %}
-<div class="main-content">
+    <div class="main-content">
         <div class="main-content-title">
             <h2>重置易班账号</h2>
         </div>
         <div class="div-form">
-            <form method="GET" name="resetPwdForm" class="reset-pwd-form" action="./resetPass">
+            <form method="POST" name="resetPwdForm" class="reset-pwd-form" action="./resetPass">
                 <div class="form-group input-group">
                     <span class="input-group-addon">姓名 :</span>
                     <input type="text" class="form-control" name="stu_name" placeholder="输入姓名" maxlength="20" required>
                 </div>
-
-
+                {% if validErr.post.stu_name.status == false %}
+                    <p class="valid-alert small">{{ validErr.post.stu_name.textInfo }}</p>
+                {% endif %}
 
                 <div class="form-group input-group">
                     <span class="input-group-addon">学号 :</span>
-                    <input type="number" class="form-control" name="stu_id" placeholder="输入学号用于重置账号" maxlength="10" required>
+                    <input type="number" class="form-control" name="stu_id" id="stu_id" placeholder="输入学号用于重置账号" maxlength="10" required>
                 </div>
 
+                {% if validErr.post.stu_id.status == false %}
+                    <p class="valid-alert small">{{ validErr.post.stu_id.textInfo }}</p>
+                {% endif %}
 
                 <div class="form-group input-group">
                     <span class="input-group-addon">邮箱 :</span>
                     <input type="email" class="form-control" name="stu_email" placeholder="联系邮箱，建议使用qq邮箱" maxlength="50" required>
                 </div>
-
+                {% if validErr.post.stu_email.status == false %}
+                    <p class="valid-alert small">{{ validErr.post.stu_email.textInfo }}</p>
+                {% endif %}
                 <div class="form-group input-group">
                     <span class="input-group-addon">电话号码 :</span>
                     <input type="number" class="form-control" name="old_phone" placeholder="当前账号绑定的电话号码(非必填，有此项处理更快)" maxlength="14">
                 </div>
+                {% if validErr.post.old_phone.status == false %}
+                    <p class="valid-alert small">{{ validErr.post.old_phone.textInfo }}</p>
+                {% endif %}
 
                 <div class="form-group input-group">
                     <span class="input-group-addon">其他 :</span>
@@ -50,7 +60,8 @@
         </div>
     </div>
 
-</div>
+    </div>
+
 
 
 {% endblock %}
