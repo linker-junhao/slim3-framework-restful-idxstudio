@@ -7,7 +7,7 @@
  * Time : 20:20
  */
 
-namespace IdxLib\standard\BindViewData;
+namespace IdxLib\Standard\BindViewData;
 
 
 class BindViewData

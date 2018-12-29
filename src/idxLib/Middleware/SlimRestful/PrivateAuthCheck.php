@@ -1,35 +1,34 @@
 <?php
-/**
- * 检查角色资源访问的权限
+/* 
+ * 检查私人资源访问权限
  */
- 
-namespace Middleware\SlimRestful;
 
-use Slim\Exception\ContainerException;
+namespace IdxLib\Middleware\SlimRestful;
 
+use Exception;
 
-class SlimRestfulRoleAuthCheck
+class PrivateAuthCheck
 {
     private $container;
-    private $roleArgumentName;
+    private $UIDArgumentName;
 
     /**
      * reveive the container object when class object build
-     * @param \Slim\Container $c
-     * @param $roleArgumentName
+     * @param \Slim\Container $container
+     * @param string $UIDArgumentName
      */
-    public function __construct(\Slim\Container $c, $roleArgumentName = 'role')
+    public function __construct(\Slim\Container $container, string $UIDArgumentName = 'uid')
     {
-        $this->container = $c;
-        $this->roleArgumentName = $roleArgumentName;
+        $this->container = $container;
+        $this->UIDArgumentName = $UIDArgumentName;
     }
 
     /**
-     * restful middleware invokable class
+     * restful Middleware invokable class
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request PSR7 request
      * @param  \Psr\Http\Message\ResponseInterface $response PSR7 response
-     * @param  callable $next Next middleware
+     * @param  callable $next Next Middleware
      *
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Interop\Container\Exception\ContainerException
@@ -39,7 +38,7 @@ class SlimRestfulRoleAuthCheck
         $restfulCache = $this->container->get('slimRestfulCache');
         $tokenCollection = $restfulCache->getDefaultCache('tokenCollection');
         if($tokenCollection != false){
-            if($request->getAttribute('route')->getArgument($this->roleArgumentName) != $tokenCollection->first()->role){
+            if($request->getAttribute('route')->getArgument($this->UIDArgumentName) != $tokenCollection->first()->uid){
                 return $response->write("you can't access this resource")->withStatus(403);
             }
         }else{

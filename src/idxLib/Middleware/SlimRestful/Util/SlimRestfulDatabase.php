@@ -10,7 +10,7 @@
  * Copyright 2018 - 2018 Linker, IDX STUDIO
  */
 
-namespace Middleware\SlimRestful\Util;
+namespace IdxLib\Middleware\SlimRestful\Util;
 
 class SlimRestfulDatabase
 {

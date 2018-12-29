@@ -9,7 +9,7 @@
 namespace App\Models\BM;
 
 use App\Models\BM\Util\CurlRequest;
-use App\Models\ORM\SubAuthApps;
+use App\Models\ORM\SubAuth;
 
 class authTokenTransfer
 {
@@ -74,7 +74,7 @@ class authTokenTransfer
         if ($this->transfer['state_value'] == null) {
             $this->transfer['state_value'] = uniqid('sa');
         }
-        $subAuth = new SubAuthApps();
+        $subAuth = new SubAuth();
         foreach ($this->transfer as $colName => $val) {
             $subAuth->$colName = $val;
         }
@@ -87,7 +87,7 @@ class authTokenTransfer
      */
     public function deleteSubAuth($id)
     {
-        $subAuth = new SubAuthApps();
+        $subAuth = new SubAuth();
         $subAuth::destroy($id);
     }
 
@@ -103,7 +103,7 @@ class authTokenTransfer
      */
     public function getSubAuthUrlByState($stateValue)
     {
-        $subAuth = new SubAuthApps();
+        $subAuth = new SubAuth();
         return $subAuth->where('state_value', $stateValue)->first()->sub_auth_url;
     }
 
@@ -120,5 +120,17 @@ class authTokenTransfer
         $tokenObj = json_decode($token);
 
         return $tokenObj;
+    }
+
+    /**
+     * 查询映射列表
+     * @param $start 查询开始的的偏移量
+     * @param $limit 想要获取的数量
+     * @return mixed
+     */
+    public function getTokenTransferMapList($start, $limit)
+    {
+        $subAuthORM = new SubAuth();
+        return $subAuthORM->skip($start)->take($limit)->get()->toArray();
     }
 }

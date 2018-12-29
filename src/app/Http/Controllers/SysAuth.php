@@ -15,7 +15,7 @@ class SysAuth extends AbstractController
      */
     public function setToken(Request $request, Response $response, array $args)
     {
-        $authorizeToken = new \Middleware\SlimRestful\SlimRestfulAuthToken($this->ci);
+        $authorizeToken = new \IdxLib\Middleware\SlimRestful\AuthToken($this->ci);
         $authorizeToken->setUid('sdf111')->setRole('1234')->addAllowedResource("sss",array())->tokenAuthDone();
         return $response;
     }

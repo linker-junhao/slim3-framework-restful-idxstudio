@@ -15,8 +15,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-          "Middleware\\": "middleware/",
-          "IdxLib\\": "idxLib/"
+            "IdxLib\\": "idxLib/"
         }
     }
 }

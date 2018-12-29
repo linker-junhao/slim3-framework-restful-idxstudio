@@ -1,5 +1,6 @@
 <?php
-namespace Middleware\SlimRestful\Util;
+
+namespace IdxLib\Middleware\SlimRestful\Util;
 
 class SlimRestfulCache
 {

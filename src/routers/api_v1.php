@@ -24,11 +24,11 @@ $app->group('', function () use ($app) {
         $app->get('/date', function ($request, $response) {
             return $response->getBody()->write(date('Y-m-d H:i:s'));
         });
-    })->add(new \Middleware\SlimRestful\SlimRestfulPrivateAuthCheck($app->getContainer()));
+    })->add(new \IdxLib\Middleware\SlimRestful\PrivateAuthCheck($app->getContainer()));
 
     //需要检查是否是本角色访问的角色资源
     $app->group('/{role}', function () use ($app) {
 
-    })->add(new \Middleware\SlimRestful\SlimRestfulRoleAuthCheck($app->getContainer()));
+    })->add(new \IdxLib\Middleware\SlimRestful\RoleAuthCheck($app->getContainer()));
 
-})->add(new \Middleware\SlimRestful\SlimRestfulBasicAuthCheck($app->getContainer()));
+})->add(new \IdxLib\Middleware\SlimRestful\BasicAuthCheck($app->getContainer()));

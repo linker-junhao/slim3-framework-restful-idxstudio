@@ -1,6 +1,6 @@
 <?php
 
-namespace Middleware\SlimRestful\Handler;
+namespace IdxLib\Middleware\SlimRestful\Handler;
 
 use Slim\Handlers\NotFound;
 

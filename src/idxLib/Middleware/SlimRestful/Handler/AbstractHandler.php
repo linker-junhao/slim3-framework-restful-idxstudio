@@ -6,7 +6,7 @@
  * Time: 15:41
  */
 
-namespace Middleware\SlimRestful\Handler;
+namespace IdxLib\Middleware\SlimRestful\Handler;
 
 
 class AbstractHandler

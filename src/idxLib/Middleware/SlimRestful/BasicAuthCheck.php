@@ -33,11 +33,11 @@
  * 2.token合法，检查该token被赋予权限的接口名，如果访问的该资源存在于其中，即可正常访问。
  */
 
-namespace Middleware\SlimRestful;
+namespace IdxLib\Middleware\SlimRestful;
 
 use Slim\Exception\ContainerException;
 
-class SlimRestfulBasicAuthCheck
+class BasicAuthCheck
 {
     private $container;
     private $authHeaderName;
@@ -76,18 +76,6 @@ class SlimRestfulBasicAuthCheck
         // };
     }
 
-    /**
-     * check the request method is allowed
-     *
-     * @param string $methodName
-     * @return bool
-     */
-    private function checkMethodAllow(string $methodName)
-    {
-        $methodName = strtolower($methodName);
-        $allowedMethods = array('get', 'post', 'put', 'delete', 'patch');
-        return in_array($methodName, $allowedMethods);
-    }
 
     /**
      * check the request is legal
@@ -125,22 +113,17 @@ class SlimRestfulBasicAuthCheck
     }
 
     /**
-     * restful middleware invokable class
+     * restful Middleware invokable class
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request PSR7 request
      * @param  \Psr\Http\Message\ResponseInterface $response PSR7 response
-     * @param  callable $next Next middleware
+     * @param  callable $next Next Middleware
      *
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Interop\Container\Exception\ContainerException
      */
     public function __invoke($request, $response, $next)
     {
-        //check method
-        if (!$this->checkMethodAllow($request->getMethod())) {
-            return $response->write('{"message":"'.$request->getMethod().'method not allowed"}')->withStatus(405);
-        }
-
         $authHeaderArray = $request->getHeader('Authorization');
         //check essential header existense
         if (count($authHeaderArray) == 0) {
