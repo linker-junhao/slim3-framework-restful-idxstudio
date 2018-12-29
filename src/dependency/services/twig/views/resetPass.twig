@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ MACROS.appsSiteName }}src/bootstrap/css/bootstrap.min.css"/>
 
     <script src="{{ MACROS.appsSiteName }}src/js/jquery-3.3.1.min.js"></script>
+    <script src="{{ MACROS.appsSiteName }}src/js/jquery.qrcode.min.js"></script>
     {#<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>#}
     <script src="{{ MACROS.appsSiteName }}src/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="{{ MACROS.appsSiteName }}src/bootstrap/js/bootstrap.min.js"></script>
@@ -24,36 +25,37 @@
         </div>
         <div class="div-form">
             <form method="POST" name="resetPwdForm" class="reset-pwd-form" action="./resetPass">
-                <div class="form-group input-group">
+
+                <div class="form-group input-group {% if validErr.post.stu_name.status == false %}has-error{% endif %}">
                     <span class="input-group-addon">姓名 :</span>
                     <input type="text" class="form-control" name="stu_name" placeholder="输入姓名" maxlength="20" required>
                 </div>
                 {% if validErr.post.stu_name.status == false %}
-                    <p class="red small">{{ validErr.post.stu_name.textInfo }}</p>
+                    <p class="valid-alert small">{{ validErr.post.stu_name.textInfo }}</p>
                 {% endif %}
 
-                <div class="form-group input-group">
+                <div class="form-group input-group {% if validErr.post.stu_id.status == false %}has-error{% endif %}">
                     <span class="input-group-addon">学号 :</span>
                     <input type="text" class="form-control" name="stu_id" id="stu_id" placeholder="输入学号用于重置账号" minlength="10" maxlength="10" required>
                 </div>
-
                 {% if validErr.post.stu_id.status == false %}
-                    <p class="red small">{{ validErr.post.stu_id.textInfo }}</p>
+                    <p class="valid-alert small">{{ validErr.post.stu_id.textInfo }}</p>
                 {% endif %}
 
-                <div class="form-group input-group">
+                <div class="form-group input-group {% if validErr.post.stu_email.status == false %}has-error{% endif %}">
                     <span class="input-group-addon">邮箱 :</span>
                     <input type="email" class="form-control" name="stu_email" placeholder="联系邮箱，建议使用qq邮箱" maxlength="50" required>
                 </div>
                 {% if validErr.post.stu_email.status == false %}
-                    <p class="red small">{{ validErr.post.stu_email.textInfo }}</p>
+                    <p class="valid-alert small">{{ validErr.post.stu_email.textInfo }}</p>
                 {% endif %}
-                <div class="form-group input-group">
+
+                <div class="form-group input-group {% if validErr.post.old_phone.status == false %}has-error{% endif %}">
                     <span class="input-group-addon">电话号码 :</span>
-                    <input type="tel" class="form-control" name="old_phone" placeholder="当前账号绑定的电话号码(非必填，有此项处理更快)">
+                    <input type="text" class="form-control" name="old_phone" placeholder="当前账号绑定的电话号码(非必填，有此项处理更快)" minlength="11" maxlength="11">
                 </div>
                 {% if validErr.post.old_phone.status == false %}
-                    <p class="red small">{{ validErr.post.old_phone.textInfo }}</p>
+                    <p class="valid-alert small">{{ validErr.post.old_phone.textInfo }}</p>
                 {% endif %}
 
 
@@ -64,10 +66,17 @@
                 <div class="form-btn">
                     <button type="submit" class="btn btn-primary">提交</button>
                     <button type="reset" class="btn btn-info">重置</button>
+
+                    {% if status %}
+                    <button type="button" class="btn btn-primary text-center" data-toggle="modal" data-target="#myModal">查看二维码或链接</button>
+                    {% endif %}
                 </div>
             </form>
         </div>
+
     </div>
+
+    {#<h1>{{ data.result_check_code }}</h1>#}
 
     <div class="modal fade" id="myModal">
             <div class="modal-dialog modal-lg">
@@ -83,9 +92,13 @@
                     <div class="modal-body">
 
                         {% if status == 'success' %}
-                            <div class="alert alert-success">{{ data }}</div>
+                            <div class="alert alert-success">{{ data.message }}</div>
+                            <div class="check-reset-result">
+                                <a id="resetPassResult" href="{{ MACROS.appsSiteName }}resetPassResult/{{ data.result_check_code }}">查看处理进度</a>
+                                <div id="qrcode"></div>
+                            </div>
                         {% elseif status == 'error' %}
-                            <div class="alert alert-warning">{{ error }}</div>
+                            <div class="alert alert-warning">{{ data.message }}</div>
                         {% endif %}
                     </div>
 
@@ -100,7 +113,9 @@
 
     {% if status %}
         <script>
-            $('#myModal').modal()
+            $('#myModal').modal();
+
+            $('#qrcode').qrcode({width: 200,height: 200,text: $('#resetPassResult').attr('href')});
         </script>
 
     {% endif %}
