@@ -41,7 +41,7 @@ CREATE TABLE `table_token`  (
 * 在构建登陆模块时，验证了用户密码后，作如下操作来增加一个token权限
 ``` PHP
 // 新建一个授权管理对象$authorizeToken，新建对象时须将slim的容器$container传入
-$authorizeToken = new \Middleware\SlimRestful\SlimRestfulAuthToken($container);
+$authorizeToken = new \IdxLib\Middleware\SlimRestful\AuthToken($container);
 
 //设置授权的用户id，后续私人资源鉴权必须
 $authorizeToken->setUid('testuid');
@@ -84,23 +84,23 @@ return array(
 
 * 验证基本授权
 
-在需要基本授权验证的路由后添加`SlimRestfulBasicAuthCheck($container, 'Authorization')`中间件
+在需要基本授权验证的路由后添加`BasicAuthCheck($container, 'Authorization')`中间件
 第一个参数为slim container容器；第二个参数为请求携带token值的header字段名，该项选填，默认值为Authorization
 ```PHP
 //基本授权，可以group添加，也可以单独为route添加
 //route group添加中间件
 $app->group('/basic', function () use ($app) {
 
-})->add(new \Middleware\SlimRestful\SlimRestfulBasicAuthCheck($app->getContainer(), 'Authorization'));
+})->add(new \IdxLib\Middleware\SlimRestful\BasicAuthCheck($app->getContainer(), 'Authorization'));
 //单个route添加
 $app->get('/api', function ($request, $response) {
   return $response;
-})->add(new \Middleware\SlimRestful\SlimRestfulBasicAuthCheck($app->getContainer()));
+})->add(new \IdxLib\Middleware\SlimRestful\BasicAuthCheck($app->getContainer()));
 ```
 
 * 验证私人资源授权
 
-在需要基本授权验证的路由后添加`SlimRestfulPrivateAuthCheck($container, $UIDArgumentName = 'uid')`中间件，第一个参数为slim
+在需要基本授权验证的路由后添加`PrivateAuthCheck($container, $UIDArgumentName = 'uid')`中间件，第一个参数为slim
 container 容器，第二个参数为路由路由pattern中表示用户id的参数名，默认值为'uid'。（**必须放在基本授权group内**）
 ```PHP
 //基本授权group
@@ -109,17 +109,17 @@ $app->group('/basic', function () use ($app) {
     //route group添加中间件
     $app->group('/basic/{uid}', function () use ($app) {
 
-    })->add(new \Middleware\SlimRestful\SlimRestfulPrivateAuthCheck($app->getContainer(), 'uid'));
+    })->add(new \IdxLib\Middleware\SlimRestful\PrivateAuthCheck($app->getContainer(), 'uid'));
     //单个route添加
     $app->get('/api/{uid}/info', function ($request, $response) {
       return $response;
-    })->add(new \Middleware\SlimRestful\SlimRestfulPrivateAuthCheck($app->getContainer(), 'uid'));
-})->add(new \Middleware\SlimRestful\SlimRestfulBasicAuthCheck($app->getContainer()));
+    })->add(new \IdxLib\Middleware\SlimRestful\PrivateAuthCheck($app->getContainer(), 'uid'));
+})->add(new \IdxLib\Middleware\SlimRestful\BasicAuthCheck($app->getContainer()));
 ```
 
 * 验证角色资源授权
 
-在需要基本授权验证的路由后添加`SlimRestfulRoleAuthCheck($container, $roleArgumentName = 'role')`中间件，第一个参数为slim
+在需要基本授权验证的路由后添加`RoleAuthCheck($container, $roleArgumentName = 'role')`中间件，第一个参数为slim
 container 容器，第二个参数为路由路由pattern中表示角色名的参数名，默认值为'role'。（**必须放在基本授权group内**）
 ```PHP
 //基本授权group
@@ -128,16 +128,16 @@ $app->group('/basic', function () use ($app) {
     //route group添加中间件
     $app->group('/basic/{role}', function () use ($app) {
 
-    })->add(new \Middleware\SlimRestful\SlimRestfulRoleAuthCheck($app->getContainer(), 'role'));
+    })->add(new \IdxLib\Middleware\SlimRestful\RoleAuthCheck($app->getContainer(), 'role'));
     //单个route添加
     $app->get('/api/{role}/info', function ($request, $response) {
       return $response;
-    })->add(new \Middleware\SlimRestful\SlimRestfulRoleAuthCheck($app->getContainer(), 'role'));
-})->add(new \Middleware\SlimRestful\SlimRestfulBasicAuthCheck($app->getContainer()));
+    })->add(new \IdxLib\Middleware\SlimRestful\RoleAuthCheck($app->getContainer(), 'role'));
+})->add(new \IdxLib\Middleware\SlimRestful\BasicAuthCheck($app->getContainer()));
 ```
 
 ### 客户端请求
 客户端请求时应在header内携带token，默认为Authorization字段。可以更改，同时后端基本授权验证
-`SlimRestfulBasicAuthCheck($container, 'Authorization')`的第二个参数也应该做相应更改。
+`BasicAuthCheck($container, 'Authorization')`的第二个参数也应该做相应更改。
 
 

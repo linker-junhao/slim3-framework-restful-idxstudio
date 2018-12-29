@@ -1,7 +1,6 @@
 <?php
 /*
- * File: SlimRestfulAuthToken.php
- * File Created: Monday, 10th December 2018 12:55:56 am
+ * File: AuthToken.phpeated: Monday, 10th December 2018 12:55:56 am
  * Author: Linker (linker-junhao@outlook.com)
  * -----
  * Last Modified: Monday, 10th December 2018 12:57:42 am
@@ -12,12 +11,12 @@
  * 授权一个token并记录在数据库中
  */
 
-namespace Middleware\SlimRestful;
+namespace IdxLib\Middleware\SlimRestful;
 
-use Middleware\SlimRestful\Model\Token;
+use IdxLib\Middleware\SlimRestful\Model\Token;
 
 
-class SlimRestfulAuthToken
+class AuthToken
 {
     private $container;
     private $uid;

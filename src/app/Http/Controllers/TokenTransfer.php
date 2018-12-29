@@ -48,4 +48,11 @@ class TokenTransfer extends AbstractController
         return $response;
         //return $response->withRedirect($url, 301);
     }
+
+    public function tokenTransferMapList(Request $request, Response $response, array $args)
+    {
+        $tokenTransfer = new authTokenTransfer();
+        $tokenTransfer->getTokenTransferMapList($request->getQueryParam('start'), $request->getQueryParam('limit'));
+        return $response;
+    }
 }

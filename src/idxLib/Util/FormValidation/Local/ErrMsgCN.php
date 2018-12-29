@@ -7,7 +7,7 @@
  * Time : 22:28
  */
 
-namespace IdxLib\util\FormValidation\Local;
+namespace IdxLib\Util\FormValidation\Local;
 
 
 class ErrMsgCN

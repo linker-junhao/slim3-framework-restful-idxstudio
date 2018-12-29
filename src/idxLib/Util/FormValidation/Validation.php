@@ -10,7 +10,7 @@
 namespace IdxLib\util\FormValidation;
 
 
-use IdxLib\util\FormValidation\Local\ErrMsgCN;
+use IdxLib\Util\FormValidation\Local\ErrMsgCN;
 use Interop\Container\ContainerInterface;
 
 class Validation

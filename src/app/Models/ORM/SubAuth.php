@@ -9,7 +9,7 @@
 namespace App\Models\ORM;
 
 
-class SubAuthApps extends AbstractAppORM
+class SubAuth extends AbstractAppORM
 {
     protected $table = 'table_sub_auth';
 
