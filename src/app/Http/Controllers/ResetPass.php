@@ -9,8 +9,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ORM\YbResetPass;
-use IdxLib\standard\BindViewData\BindViewData;
-use IdxLib\util\FormValidation\Validation;
+use IdxLib\Standard\BindViewData\BindViewData;
+use IdxLib\Util\FormValidation\Validation;
 use Interop\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
