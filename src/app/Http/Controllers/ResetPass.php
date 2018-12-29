@@ -9,8 +9,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ORM\YbResetPass;
-use IdxLib\standard\BindViewData\BindViewData;
-use IdxLib\util\FormValidation\Validation;
+use IdxLib\Standard\BindViewData\BindViewData;
+use IdxLib\Util\FormValidation\Validation;
 use Interop\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -114,7 +114,7 @@ class ResetPass extends AbstractController
 
 
                     //更新数据库数据
-                    $resultCheckCode= uniqid($stu_id,true);
+                    $resultCheckCode= uniqid($stu_id, false);
                     $ybResetPass->result_check_code = $resultCheckCode;
                     $ybResetPass->stu_name = $stu_name;
                     $ybResetPass->stu_email = $stu_email;
@@ -138,7 +138,7 @@ class ResetPass extends AbstractController
             } else{
 
 
-                $resultCheckCode= uniqid($stu_id,true);
+                $resultCheckCode= uniqid($stu_id, false);
                 $ORMYbResetPass->stu_id = $stu_id;
                 $ORMYbResetPass->result_check_code = $resultCheckCode;
                 $ORMYbResetPass->stu_name = $stu_name;
