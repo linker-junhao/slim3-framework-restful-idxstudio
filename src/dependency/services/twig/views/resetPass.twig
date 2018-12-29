@@ -66,9 +66,14 @@
                 <div class="form-btn">
                     <button type="submit" class="btn btn-primary">提交</button>
                     <button type="reset" class="btn btn-info">重置</button>
+
+                    {% if status %}
+                    <button type="button" class="btn btn-primary text-center" data-toggle="modal" data-target="#myModal">查看二维码或链接</button>
+                    {% endif %}
                 </div>
             </form>
         </div>
+
     </div>
 
     {#<h1>{{ data.result_check_code }}</h1>#}
