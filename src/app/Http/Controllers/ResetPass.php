@@ -93,7 +93,7 @@ class ResetPass extends AbstractController
             'stu_name' => 'required',
             'stu_id' => 'required|numeric:1000000000~3000000000',
             'stu_email' => 'required|email',
-            'old_phone' => 'required|phone',
+            'old_phone' => 'phone',
         ))->validDone();
 
         //获取验证结果
