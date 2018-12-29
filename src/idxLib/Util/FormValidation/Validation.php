@@ -37,7 +37,6 @@ class Validation
     }
 
 
-
     /**
      * set get query parameters valid regulation
      * @param array $regulation
@@ -111,85 +110,87 @@ class Validation
                 $resultInfo .= ErrMsgCN::$ErrMsgCN['required'];
             }
             $testResult = $testResult && $test;
-        }
-
-        //no_space，无空格
-        if (in_array('no_space', $regArray)) {
-            if (!($test = $this->noWhiteSpace($target))) {
-                $resultInfo .= ErrMsgCN::$ErrMsgCN['noWhiteSpace'];
+        } elseif ($target == '') {
+            $testResult = true;
+        } else {
+            //no_space，无空格
+            if (in_array('no_space', $regArray)) {
+                if (!($test = $this->noWhiteSpace($target))) {
+                    $resultInfo .= ErrMsgCN::$ErrMsgCN['noWhiteSpace'];
+                }
+                $testResult = $testResult && $test;
             }
-            $testResult = $testResult && $test;
-        }
 
-        //email，邮件格式
-        if (in_array('email', $regArray)) {
-            if (!($test = $this->eMail($target))) {
-                $resultInfo .= ErrMsgCN::$ErrMsgCN['eMail'];
+            //email，邮件格式
+            if (in_array('email', $regArray)) {
+                if (!($test = $this->eMail($target))) {
+                    $resultInfo .= ErrMsgCN::$ErrMsgCN['eMail'];
+                }
+                $testResult = $testResult && $test;
             }
-            $testResult = $testResult && $test;
-        }
 
-        //numeric，都是数字
-        if (count($pregResult = preg_grep('/^(numeric:)(-?[0-9]+)~(-?[0-9]+)$/', $regArray))) {
-            if (!($test = $this->allNumeric($target, $pregResult[1]))) {
-                $resultInfo .= ErrMsgCN::$ErrMsgCN['allNumeric'];
+            //numeric，都是数字
+            if (count($pregResult = preg_grep('/^(numeric:)(-?[0-9]+)~(-?[0-9]+)$/', $regArray))) {
+                if (!($test = $this->allNumeric($target, $pregResult[1]))) {
+                    $resultInfo .= ErrMsgCN::$ErrMsgCN['allNumeric'];
+                }
+                $testResult = $testResult && $test;
             }
-            $testResult = $testResult && $test;
-        }
 
-        //alpha，全部都是英文字母
-        if (in_array('alpha', $regArray)) {
-            if (!($test = $this->allAlpha($target))) {
-                $resultInfo .= ErrMsgCN::$ErrMsgCN['allAlpha'];
+            //alpha，全部都是英文字母
+            if (in_array('alpha', $regArray)) {
+                if (!($test = $this->allAlpha($target))) {
+                    $resultInfo .= ErrMsgCN::$ErrMsgCN['allAlpha'];
+                }
+                $testResult = $testResult && $test;
             }
-            $testResult = $testResult && $test;
-        }
 
-        //alpha_dash，可以是英文、数字、下划线(_)和短横线(-)
-        if (in_array('alpha_dash', $regArray)) {
-            if (!($test = $this->alphaDash($target))) {
-                $resultInfo .= ErrMsgCN::$ErrMsgCN['alphaDash'];
+            //alpha_dash，可以是英文、数字、下划线(_)和短横线(-)
+            if (in_array('alpha_dash', $regArray)) {
+                if (!($test = $this->alphaDash($target))) {
+                    $resultInfo .= ErrMsgCN::$ErrMsgCN['alphaDash'];
+                }
+                $testResult = $testResult && $test;
             }
-            $testResult = $testResult && $test;
-        }
 
-        //alpha_num，必须完全是字母、数字。
-        if (in_array('alpha_num', $regArray)) {
-            if (!($test = $this->alphaNum($target))) {
-                $resultInfo .= ErrMsgCN::$ErrMsgCN['alphaNum'];
+            //alpha_num，必须完全是字母、数字。
+            if (in_array('alpha_num', $regArray)) {
+                if (!($test = $this->alphaNum($target))) {
+                    $resultInfo .= ErrMsgCN::$ErrMsgCN['alphaNum'];
+                }
+                $testResult = $testResult && $test;
             }
-            $testResult = $testResult && $test;
-        }
 
-        //phone，电话号码
-        if (in_array('phone', $regArray)) {
-            if (!($test = $this->phone($target))) {
-                $resultInfo .= ErrMsgCN::$ErrMsgCN['phone'];
+            //phone，电话号码
+            if (in_array('phone', $regArray)) {
+                if (!($test = $this->phone($target))) {
+                    $resultInfo .= ErrMsgCN::$ErrMsgCN['phone'];
+                }
+                $testResult = $testResult && $test;
             }
-            $testResult = $testResult && $test;
-        }
 
-        //date，日期
-        if (count($pregResult = preg_grep('/^(date:)([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31))~([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31))$/', $regArray))) {
-            if (!($test = $this->date($target, $pregResult[1]))) {
-                $resultInfo .= ErrMsgCN::$ErrMsgCN['date'];
+            //date，日期
+            if (count($pregResult = preg_grep('/^(date:)([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31))~([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31))$/', $regArray))) {
+                if (!($test = $this->date($target, $pregResult[1]))) {
+                    $resultInfo .= ErrMsgCN::$ErrMsgCN['date'];
+                }
+                $testResult = $testResult && $test;
             }
-            $testResult = $testResult && $test;
-        }
 
-        //datetime，日期时间
-        if (count($pregResult = preg_grep('/^(datetime:)(([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31)) ((0|1)[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9]))~(([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31)) ((0|1)[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9]))$/', $regArray))) {
-            if (!($test = $this->dateTime($target, $pregResult[1]))) {
-                $resultInfo .= ErrMsgCN::$ErrMsgCN['dateTime'];
+            //datetime，日期时间
+            if (count($pregResult = preg_grep('/^(datetime:)(([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31)) ((0|1)[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9]))~(([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31)) ((0|1)[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9]))$/', $regArray))) {
+                if (!($test = $this->dateTime($target, $pregResult[1]))) {
+                    $resultInfo .= ErrMsgCN::$ErrMsgCN['dateTime'];
+                }
+                $testResult = $testResult && $test;
             }
-            $testResult = $testResult && $test;
-        }
 
-        if (preg_grep('/^(reg:)(.|\n|\r)+$/', $regArray)) {
-            if (!($test = $this->regExp($target, 'ss'))) {
-                $resultInfo .= ErrMsgCN::$ErrMsgCN['regExp'];
+            if (preg_grep('/^(reg:)(.|\n|\r)+$/', $regArray)) {
+                if (!($test = $this->regExp($target, 'ss'))) {
+                    $resultInfo .= ErrMsgCN::$ErrMsgCN['regExp'];
+                }
+                $testResult = $testResult && $test;
             }
-            $testResult = $testResult && $test;
         }
 
         $resultArray['textInfo'] = $resultInfo;
