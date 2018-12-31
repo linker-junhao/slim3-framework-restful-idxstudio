@@ -112,7 +112,8 @@ class Validation
             $testResult = $testResult && $test;
         } elseif ($target == '') {
             $testResult = true;
-        } else {
+        }
+        if ($target !== '') {
             //no_space，无空格
             if (in_array('no_space', $regArray)) {
                 if (!($test = $this->noWhiteSpace($target))) {
@@ -130,8 +131,8 @@ class Validation
             }
 
             //numeric，都是数字
-            if (count($pregResult = preg_grep('/^(numeric:)(-?[0-9]+)~(-?[0-9]+)$/', $regArray))) {
-                if (!($test = $this->allNumeric($target, $pregResult[1]))) {
+            if (count($pregResult = array_values(preg_grep('/^(numeric:)(-?[0-9]+)~(-?[0-9]+)$/', $regArray)))) {
+                if (!($test = $this->allNumeric($target, $pregResult[0]))) {
                     $resultInfo .= ErrMsgCN::$ErrMsgCN['allNumeric'];
                 }
                 $testResult = $testResult && $test;
@@ -170,16 +171,16 @@ class Validation
             }
 
             //date，日期
-            if (count($pregResult = preg_grep('/^(date:)([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31))~([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31))$/', $regArray))) {
-                if (!($test = $this->date($target, $pregResult[1]))) {
+            if (count($pregResult = array_values(preg_grep('/^(date:)([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31))~([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31))$/', $regArray)))) {
+                if (!($test = $this->date($target, $pregResult[0]))) {
                     $resultInfo .= ErrMsgCN::$ErrMsgCN['date'];
                 }
                 $testResult = $testResult && $test;
             }
 
             //datetime，日期时间
-            if (count($pregResult = preg_grep('/^(datetime:)(([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31)) ((0|1)[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9]))~(([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31)) ((0|1)[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9]))$/', $regArray))) {
-                if (!($test = $this->dateTime($target, $pregResult[1]))) {
+            if (count($pregResult = array_values(preg_grep('/^(datetime:)(([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31)) ((0|1)[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9]))~(([0-9]{4}-(0[1-9]|1[0-2])-((0[1-9])|((1|2)[0-9])|30|31)) ((0|1)[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9]))$/', $regArray)))) {
+                if (!($test = $this->dateTime($target, $pregResult[0]))) {
                     $resultInfo .= ErrMsgCN::$ErrMsgCN['dateTime'];
                 }
                 $testResult = $testResult && $test;
