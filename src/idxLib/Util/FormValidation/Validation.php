@@ -110,7 +110,7 @@ class Validation
                 $resultInfo .= ErrMsgCN::$ErrMsgCN['required'];
             }
             $testResult = $testResult && $test;
-        } elseif ($target == '') {
+        } elseif ($target === '') {
             $testResult = true;
         }
         if ($target !== '') {
@@ -196,7 +196,7 @@ class Validation
 
         $resultArray['textInfo'] = $resultInfo;
         $resultArray['status'] = $testResult;
-        $this->integratedResult = $testResult;
+        $this->integratedResult = $this->integratedResult && $testResult;
         return $testResult;
     }
 
@@ -220,34 +220,37 @@ class Validation
 
     /**
      * @param $target
-     * @return false|int
+     * @return bool
      */
     public function eMail($target)
     {
-        return preg_match('/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/', $target);
+        return preg_match('/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/', $target) == false ? false : true;
     }
 
     /**
      * @param $target
      * @param $regulation
-     * @return false|int
+     * @return bool
      */
     public function allNumeric($target, $regulation)
     {
         preg_match('/^(numeric:)(-?[0-9]{0,})~(-?[0-9]{0,})$/', $regulation, $regResult);
-        $target = intval($target);
-        if ($regResult[2] == '-0' && $regResult[3] == '-0') {
-            return $target;
-        } elseif ($regResult[2] == '-0') {
-            return $target <= intval($regResult[3]);
-        } elseif ($regResult[3] == '-0') {
-            return $target <= intval($regResult[2]);
+        $targetIntTest = preg_match('/^-?[0-9]+$/', $target);
+        if ($targetIntTest) {
+            if ($regResult[2] === '-0' && $regResult[3] === '-0') {
+                return true;
+            } elseif ($regResult[2] === '-0') {
+                return $target <= $regResult[3];
+            } elseif ($regResult[3] === '-0') {
+                return $target >= $regResult[2];
+            } else {
+                $min = $regResult[2];
+                $max = $regResult[3];
+                return ($target >= $min) && ($target <= $max);
+            }
+        } else {
+            return false;
         }
-
-        $min = intval($regResult[2]);
-        $max = intval($regResult[3]);
-
-        return ($target >= $min) && $target && ($target <= $max);
     }
 
     /**
