@@ -9,5 +9,6 @@ require '../dependency/dependencyCenter.php';
 require '../routers/web.php';
 require '../routers/api_v1.php';
 require '../routers/tokenTransferApi.php';
+require '../routers/yibanCrxToolBox.php';
 
 $app->run();

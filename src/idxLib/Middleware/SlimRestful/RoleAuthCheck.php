@@ -15,7 +15,7 @@ class RoleAuthCheck
     private $roleArgumentName;
 
     /**
-     * reveive the container object when class object build
+     * receive the container object when class object build
      * @param \Slim\Container $c
      * @param $roleArgumentName
      */
