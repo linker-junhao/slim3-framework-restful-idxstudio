@@ -19,23 +19,20 @@
  * 2.token在header Authorization内
  * 3.api版本号在header Accept内
  * 4.根据不同的资源状态，返回不同的http status code
- * 
- */
-/**
+ *
  * 资源分为：公共资源、私人资源、角色资源；
  * 公共资源指开放访问的资源，该资源不用授权，可以直接在代码中取消该访问的中间件，分为登陆即可访问或无需登陆即可访问
  * 私人资源指仅可以由个人访问到的资源，该资源访问时需要鉴权，并判定该权限是否是该资源所有人的
  * 角色资源指的是属于某一角色群体的资源，比如管理员角色，可以对其角色内的资源进行访问
- */
-/**
- * 授权时将授权的接口名写入到数据表的allow_resource字段下，多个接口用#(井号)隔开，存储的接口名必须时经过url编码的字符
+ *
+ * 授权时将授权的接口名写入到数据表的allow_resource字段下，以json格式存储
  * 1.访问资源时首先判断token是否存在且未过期
  * 2.token合法，检查该token被赋予权限的接口名，如果访问的该资源存在于其中，即可正常访问。
  */
 
 namespace IdxLib\Middleware\SlimRestful;
 
-use Slim\Exception\ContainerException;
+use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
 
 class BasicAuthCheck
 {
@@ -54,7 +51,7 @@ class BasicAuthCheck
         $container->get('settings')->replace(array('determineRouteBeforeAppMiddleware' => true));
         //define error handler
         $this->errorHandlerDefine();
-        //regist a cache service
+        //register a cache service，将缓存对象保存到slim 容器中
         $container['slimRestfulCache'] = function ($container) {
             return new Util\SlimRestfulCache();
         };
@@ -65,7 +62,7 @@ class BasicAuthCheck
     }
 
     /**
-     * load custome error handler into container
+     * load custom error handler into container
      *
      * @return void
      */
@@ -125,25 +122,19 @@ class BasicAuthCheck
     public function __invoke($request, $response, $next)
     {
         $authHeaderArray = $request->getHeader('Authorization');
-        //check essential header existense
         if (count($authHeaderArray) == 0) {
-            return $response->write('{"message":"malformed request, no Authorization header"}')->withStatus(400);
+            //check essential header if exist 检查该请求是否有token
+            HandlerSetIDXResponseErr::setErr400();
+        } elseif (!$this->checkTokenAuth($request->getHeader($this->authHeaderName)[0])) {
+            //check token authorized 检查该请求token是否合法
+            HandlerSetIDXResponseErr::setErr401();
+        } elseif (!$this->checkResourceAuthorized($request->getAttribute('route'))) {
+            //check resource authorized to the token 检查资源是否被授予该token
+            HandlerSetIDXResponseErr::setErr403();
+        } else {
+            //can be access by this token 基本检查确认可以访问该资源
+            $response = $next($request, $response);
         }
-
-        //check token authorized
-        if (!$this->checkTokenAuth($request->getHeader($this->authHeaderName)[0])) {
-            return $response->write('{"message":"unAuthorized"}')->withStatus(401);
-        }
-
-        //check resource authorized to the token
-        if (!$this->checkResourceAuthorized($request->getAttribute('route'))) {
-            return $response->write('{"message":"you do not have permission to access this resource"}')->withStatus(403);
-        }
-
-
-        //check the resource can be access by this token
-        $response = $next($request, $response);
-
         return $response;
     }
 }

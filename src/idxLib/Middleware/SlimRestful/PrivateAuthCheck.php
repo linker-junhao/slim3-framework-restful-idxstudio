@@ -6,6 +6,7 @@
 namespace IdxLib\Middleware\SlimRestful;
 
 use Exception;
+use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
 
 class PrivateAuthCheck
 {
@@ -39,16 +40,13 @@ class PrivateAuthCheck
         $tokenCollection = $restfulCache->getDefaultCache('tokenCollection');
         if($tokenCollection != false){
             if($request->getAttribute('route')->getArgument($this->UIDArgumentName) != $tokenCollection->first()->uid){
-                return $response->write("you can't access this resource")->withStatus(403);
+                HandlerSetIDXResponseErr::setErr403();
+            } else {
+                $response = $next($request, $response);
             }
         }else{
-            throw new Exception("Error Processing Request", 1);
+            HandlerSetIDXResponseErr::setErr500();
         }
-
-        $response = $next($request, $response);
-        
-        //after
-
         return $response;
     }
 }

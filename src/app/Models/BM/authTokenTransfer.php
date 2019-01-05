@@ -8,8 +8,8 @@
 
 namespace App\Models\BM;
 
-use App\Models\BM\Util\CurlRequest;
 use App\Models\ORM\SubAuth;
+use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 
 class authTokenTransfer
 {
@@ -17,11 +17,12 @@ class authTokenTransfer
      * 返回一个transfer适用的数组
      * @return array
      */
-    public function transferArray()
+    private function transferArray()
     {
         return array(
             'state_value' => null,
             'sub_auth_url' => null,
+            'site_name' => null,
             'enable' => null
         );
     }
@@ -35,10 +36,21 @@ class authTokenTransfer
 
     /**
      * 设置一个State-目标url映射的state值，不建议调用此函数手动设置state值，不调用此函数将由系统自动生成state值
+     * @param $id
+     * @return $this
+     */
+    private function setId($id)
+    {
+        $this->transfer['id'] = $id;
+        return $this;
+    }
+
+    /**
+     * 设置一个State-目标url映射的state值，不建议调用此函数手动设置state值，不调用此函数将由系统自动生成state值
      * @param $stateValue
      * @return $this
      */
-    public function setStateValue($stateValue)
+    private function setStateValue($stateValue)
     {
         $this->transfer['state_value'] = $stateValue;
         return $this;
@@ -49,18 +61,26 @@ class authTokenTransfer
      * @param $subAuthUrl
      * @return $this
      */
-    public function setSubAuthUrl($subAuthUrl)
+    private function setSubAuthUrl($subAuthUrl)
     {
         $this->transfer['sub_auth_url'] = $subAuthUrl;
         return $this;
     }
+
+
+    private function setSiteName($siteName)
+    {
+        $this->transfer['site_name'] = $siteName;
+        return $this;
+    }
+
 
     /**
      * 设置该映射的启用/禁用状态
      * @param $enableFlag
      * @return $this
      */
-    public function setEnable($enableFlag)
+    private function setEnable($enableFlag)
     {
         $this->transfer['enable'] = $enableFlag;
         return $this;
@@ -69,7 +89,7 @@ class authTokenTransfer
     /**
      * 将该映射存储到数据库中
      */
-    public function addSubAuthDone()
+    private function addSubAuthDone()
     {
         if ($this->transfer['state_value'] == null) {
             $this->transfer['state_value'] = uniqid('sa');
@@ -79,21 +99,37 @@ class authTokenTransfer
             $subAuth->$colName = $val;
         }
         $subAuth->save();
+        $ret = $subAuth->toArray();
+        unset($ret['updated_at']);
+        return $ret;
     }
 
+    /**
+     * 将该映射存储到数据库中
+     */
+    private function updateSubAuthDone()
+    {
+
+        $colVal = $this->transfer;
+        $subAuth = subAuth::find($colVal['id']);
+        unset($colVal['created_at']);
+        unset($colVal['updated_at']);
+        unset($colVal['id']);
+        foreach ($colVal as $colName => $val) {
+            $subAuth->$colName = $val;
+        }
+        $subAuth->save();
+        $ret = $subAuth->toArray();
+        return $ret;
+    }
     /**
      * 删除对应主键id的映射关系
      * @param array | int $id
      */
-    public function deleteSubAuth($id)
+    private function deleteSubAuth($id)
     {
         $subAuth = new SubAuth();
         $subAuth::destroy($id);
-    }
-
-    public function modifySubAuth()
-    {
-
     }
 
     /**
@@ -107,30 +143,72 @@ class authTokenTransfer
         return $subAuth->where('state_value', $stateValue)->first()->sub_auth_url;
     }
 
-    public function getYibanAccessTokenByCode($code, $client_id, $client_secret, $redirect_uri)
-    {
-        $url = 'https://openapi.yiban.cn/oauth/access_token';
-        $token = CurlRequest::_httpPost($url, array(
-                'code' => $code,
-                'client_id' => $client_id,
-                'client_secret' => $client_secret,
-                'redirect_uri' => $redirect_uri)
-        );
-
-        $tokenObj = json_decode($token);
-
-        return $tokenObj;
-    }
-
     /**
      * 查询映射列表
-     * @param $start 查询开始的的偏移量
-     * @param $limit 想要获取的数量
+     * @param int $start 查询开始的的偏移量
+     * @param int $limit 想要获取的数量
      * @return mixed
      */
     public function getTokenTransferMapList($start, $limit)
     {
         $subAuthORM = new SubAuth();
-        return $subAuthORM->skip($start)->take($limit)->get()->toArray();
+        return array(
+            'rows' => $subAuthORM->skip($start)->take($limit)->get()->toArray(),
+            'total' => $subAuthORM->count()
+        );
     }
+
+    /**
+     * 添加一个token转发映射
+     * @param $params
+     */
+    public function appendTokenTransferMap($params)
+    {
+        $this->setSubAuthUrl($params['sub_auth_url']);
+        $this->setEnable($params['enable']);
+        $this->setSiteName($params['site_name']);
+        if (key_exists('state_value', $params)) {
+            $this->setStateValue($params['state_value']);
+        }
+        $doneRow = $this->addSubAuthDone();
+        IDXResponse::setBodyCode(200);
+        IDXResponse::setHttpStatusCode(200);
+        IDXResponse::setBodyStatus(true);
+        IDXResponse::setBodyData($doneRow);
+    }
+
+    /**
+     * 修改token转发映射
+     * @param $params
+     */
+    public function modifyTokenTransferMap($params)
+    {
+        foreach ($params as $rowItem) {
+            $this->setId($rowItem['id']);
+            $this->setSubAuthUrl($rowItem['sub_auth_url']);
+            $this->setEnable($rowItem['enable']);
+            $this->setSiteName($rowItem['site_name']);
+            $this->setStateValue($rowItem['state_value']);
+            $this->updateSubAuthDone();
+        }
+        IDXResponse::setBodyCode(200);
+        IDXResponse::setHttpStatusCode(200);
+        IDXResponse::setBodyStatus(true);
+        IDXResponse::setBodyData('');
+    }
+
+    /**
+     * 删除token转发映射
+     * @param $params
+     */
+    public function deleteTokenTransferMap($params)
+    {
+        $id = explode(',', $params['id']);
+        $this->deleteSubAuth($id);
+        IDXResponse::setBodyCode(200);
+        IDXResponse::setHttpStatusCode(200);
+        IDXResponse::setBodyStatus(true);
+        IDXResponse::setBodyData('');
+    }
+
 }

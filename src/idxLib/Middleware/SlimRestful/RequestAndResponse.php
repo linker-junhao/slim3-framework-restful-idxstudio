@@ -12,25 +12,9 @@ namespace IdxLib\Middleware\SlimRestful;
 
 class RequestAndResponse
 {
-    private static $responseStatus;
-    private static $responseBodyData;
-
     public function __construct()
     {
 
-    }
-
-    /**
-     * check the request method is allowed
-     *
-     * @param string $methodName
-     * @return bool
-     */
-    private function checkMethodAllow(string $methodName)
-    {
-        $methodName = strtolower($methodName);
-        $allowedMethods = array('get', 'post', 'put', 'delete', 'patch');
-        return in_array($methodName, $allowedMethods);
     }
 
     /**
@@ -44,12 +28,12 @@ class RequestAndResponse
      */
     public function __invoke($request, $response, $next)
     {
-        //check method
-        if (!$this->checkMethodAllow($request->getMethod())) {
-            return $response->write('{"message":"' . $request->getMethod() . 'method not allowed"}')->withStatus(405);
-        }
         $response = $next($request, $response);
-        $response->getBody()->write('AFTER');
-        return $response;
+
+        //TODO 判断请求的数据类型json/xml，并做出相应数据格式的回应，目前仅json
+        $response = $response->withHeader('Content-type', 'application/json');
+        $response->getBody()->write(Standard\HttpResponse\IDXResponse::bodyToJson());
+
+        return $response->withStatus(Standard\HttpResponse\IDXResponse::$httpStatusCode);
     }
 }

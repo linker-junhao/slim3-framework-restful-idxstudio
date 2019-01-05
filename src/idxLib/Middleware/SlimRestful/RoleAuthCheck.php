@@ -5,6 +5,7 @@
 
 namespace IdxLib\Middleware\SlimRestful;
 
+use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
 use Slim\Exception\ContainerException;
 
 
@@ -36,19 +37,20 @@ class RoleAuthCheck
      */
     public function __invoke($request, $response, $next)
     {
+        //使用restful缓存
         $restfulCache = $this->container->get('slimRestfulCache');
+        //取出在缓存中的本次请求的携带的token的相关信息
         $tokenCollection = $restfulCache->getDefaultCache('tokenCollection');
+        //检查是否存在相关信息
         if($tokenCollection != false){
             if($request->getAttribute('route')->getArgument($this->roleArgumentName) != $tokenCollection->first()->role){
-                return $response->write("you can't access this resource")->withStatus(403);
+                HandlerSetIDXResponseErr::setErr403();
+            } else {
+                $response = $next($request, $response);
             }
         }else{
-            throw new Exception("Error Processing Request", 1);
+            HandlerSetIDXResponseErr::setErr500();
         }
-
-        $response = $next($request, $response);
-        
-        //after
 
         return $response;
     }
