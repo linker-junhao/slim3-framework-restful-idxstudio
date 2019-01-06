@@ -11,7 +11,7 @@ namespace App\Models\BM;
 use App\Models\ORM\SubAuth;
 use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 
-class authTokenTransfer
+class AuthTokenTransfer
 {
     /**
      * 返回一个transfer适用的数组

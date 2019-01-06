@@ -9,7 +9,7 @@
 
 namespace App\Http\Controllers;
 
-use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
+use App\Models\BM\SysAdmin;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -17,11 +17,8 @@ class YiBanCrxTools extends AbstractController
 {
     function login(Request $request, Response $response, array $args)
     {
-        IDXResponse::setBodyStatus(true);
-        IDXResponse::setBodyCode(200);
-        IDXResponse::setHttpStatusCode(200);
-        IDXResponse::setBodyData('');
-        IDXResponse::setBodyErr('用户名密码错误');
+        $admin = new SysAdmin();
+        $admin->login($this->ci, $request->getParsedBody());
         return $response;
     }
 }

@@ -74,20 +74,6 @@ class ResetPass extends AbstractController
         $old_phone = trim($request->getParam('old_phone'));
         $extra_info = trim($request->getParam('extra_info'));
 
-
-        //        TODO 测试输出
-//        echo '<br/>stu_name: ';
-//        echo $stu_name;
-//        echo '<br/>stu_id: ';
-//        echo $stu_id;
-//        echo '<br/>stu_email: ';
-//        echo $stu_email;
-//        echo '<br/>old_phone: ';
-//        echo $old_phone;
-//        echo '<br/>extra_info: ';
-//        echo $extra_info;
-//        echo '<br/>';
-
         $valid = new Validation($this->ci);
         $valid->setPostParamRegulation(array(
             'stu_name' => 'required',
@@ -105,15 +91,10 @@ class ResetPass extends AbstractController
                 if($this->NOT_DEAL_CODE_NUM === intval($ybResetPass->deal_code)){
                     $this->resetViewData['message'] = '你已提交过重置密码请求，扫描下方二维码或点击链接查看处理进度。';
                     $this->resetViewData['result_check_code'] = $ybResetPass->result_check_code;
-//                    var_dump($this->resetViewData['result_check_code']);
-//                    var_dump($ybResetPass->deal_code);
 
                     $this->viewData->setData($this->resetViewData);
                     $this->viewData->setStatus('success');
                 }else{  //状态为已处理，再次提交
-
-
-                    //更新数据库数据
                     $resultCheckCode= uniqid($stu_id, false);
                     $ybResetPass->result_check_code = $resultCheckCode;
                     $ybResetPass->stu_name = $stu_name;
@@ -158,13 +139,6 @@ class ResetPass extends AbstractController
                 }
             }
         }
-
-
-//
-//        var_dump($valid->getResult());
-//        var_dump($this->viewData);
-
-
         $this->ci->view->render($response, 'resetPass.twig',$this->viewData->toArray());
         return $response;
     }

@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BM\authTokenTransfer;
+use App\Models\BM\AuthTokenTransfer;
 use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 use IdxLib\util\FormValidation\Validation;
 use IdxLib\Util\YibanApi\YibanApi;
@@ -26,7 +26,7 @@ class TokenTransfer extends AbstractController
      */
     public function tokenTransferRedirect(Request $request, Response $response, array $args)
     {
-        $tokenTransfer = new authTokenTransfer();
+        $tokenTransfer = new AuthTokenTransfer();
         $yibanApi = new YibanApi();
         $targetAppUrl = $tokenTransfer->getSubAuthUrlByState($request->getQueryParam('state'));
         $token = $yibanApi->getYibanAccessTokenByCode($request->getQueryParam('code'),
@@ -60,7 +60,7 @@ class TokenTransfer extends AbstractController
             IDXResponse::setBodyCode(400);
             IDXResponse::setHttpStatusCode(400);
         } else {
-            $tokenTransfer = new authTokenTransfer();
+            $tokenTransfer = new AuthTokenTransfer();
             IDXResponse::setBodyData($tokenTransfer->getTokenTransferMapList(
                 $request->getQueryParam('start'),
                 $request->getQueryParam('limit')
@@ -74,21 +74,21 @@ class TokenTransfer extends AbstractController
 
     public function dataAppend(Request $request, Response $response, array $args)
     {
-        $tokenTransfer = new authTokenTransfer();
+        $tokenTransfer = new AuthTokenTransfer();
         $tokenTransfer->appendTokenTransferMap($request->getParsedBody());
         return $response;
     }
 
     public function dataModify(Request $request, Response $response, array $args)
     {
-        $tokenTransfer = new authTokenTransfer();
+        $tokenTransfer = new AuthTokenTransfer();
         $tokenTransfer->modifyTokenTransferMap($request->getParsedBody());
         return $response;
     }
 
     public function dataDelete(Request $request, Response $response, array $args)
     {
-        $tokenTransfer = new authTokenTransfer();
+        $tokenTransfer = new AuthTokenTransfer();
         $tokenTransfer->deleteTokenTransferMap($request->getQueryParams());
         return $response;
     }
