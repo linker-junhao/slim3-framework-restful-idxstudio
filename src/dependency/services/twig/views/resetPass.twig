@@ -20,7 +20,7 @@
             <h2>重置易班账号</h2>
         </div>
         <div class="div-form">
-            <form method="POST" name="resetPwdForm" class="reset-pwd-form" action="./resetPass">
+            <form method="POST" name="resetPwdForm" class="reset-pwd-form" action="./apply">
 
                 <div class="form-group input-group {% if validErr.post.stu_name.status == false and validErr.post.stu_name.status  is defined %}has-error{% endif %}">
                     <span class="input-group-addon">姓名 :</span>
@@ -88,7 +88,8 @@
                         {% if status == 'success' %}
                             <div class="alert alert-success">{{ data.message }}</div>
                             <div class="check-reset-result">
-                                <a id="resetPassResult" href="{{ MACROS.appsSiteName }}resetPassResult/{{ data.result_check_code }}">查看处理进度</a>
+                                <a id="resetPassResult"
+                                   href="{{ MACROS.appsSiteName }}yiban/web_page/reset_pass/apply_result/{{ data.result_check_code }}">查看处理进度</a>
                                 <div id="qrcode"></div>
                             </div>
                         {% elseif status == 'error' %}

@@ -10,9 +10,3 @@ $app->group('/token_transfer', function () use ($app){
 
 
 
-
-$app->get('/resetPass', App\Http\Controllers\ResetPass::class . ':get')->setName('resetPass');
-$app->post('/resetPass', App\Http\Controllers\ResetPass::class . ':post')->setName('resetPass');
-
-
-$app->get('/resetPassResult/{result_check_code}', App\Http\Controllers\ResetPass::class . ':resetPassResult')->setName('resetPassResult');

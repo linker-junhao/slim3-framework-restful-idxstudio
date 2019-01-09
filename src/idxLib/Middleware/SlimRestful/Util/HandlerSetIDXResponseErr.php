@@ -14,6 +14,13 @@ use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 
 class HandlerSetIDXResponseErr
 {
+    public static function setErr200()
+    {
+        IDXResponse::setBodyCode(200);
+        IDXResponse::setHttpStatusCode(200);
+        IDXResponse::setBodyStatus(true);
+    }
+
     public static function setErr400()
     {
         IDXResponse::setBodyData(array(

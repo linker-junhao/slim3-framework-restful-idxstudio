@@ -117,8 +117,6 @@ class ResetPass extends AbstractController
 
                 }
             } else{
-
-
                 $resultCheckCode= uniqid($stu_id, false);
                 $ORMYbResetPass->stu_id = $stu_id;
                 $ORMYbResetPass->result_check_code = $resultCheckCode;
@@ -150,10 +148,8 @@ class ResetPass extends AbstractController
         $ORMYbResetPass = YbResetPass::where('result_check_code', '=', $request->getAttribute('route')->getArgument('result_check_code'))->first();
 
         if($this->NOT_DEAL_CODE_NUM === intval($ORMYbResetPass->deal_code)){
-
             $this->resetViewData['message'] = '正在处理中，请稍后再查询。';
         }else if($this->DEAL_CODE_NUM === intval($ORMYbResetPass->deal_code)){
-
             $this->resetViewData['message'] = $ORMYbResetPass->deal_status_text;
         }
         $this->viewData->setData($this->resetViewData);

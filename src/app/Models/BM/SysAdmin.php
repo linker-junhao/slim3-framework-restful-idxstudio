@@ -30,6 +30,7 @@ class SysAdmin
             $auth->setPrivilege('1');
             $auth->setRole('1');
             $auth->addAllowedResource('/token_transfer/state_url_map', array('get', 'post', 'put', 'delete'));
+            $auth->addAllowedResource('/yiban/reset_pass', array('get', 'post', 'put', 'delete'));
             $token = $auth->tokenAuthDone();
             IDXResponse::setBodyCode(200);
             IDXResponse::setHttpStatusCode(200);
