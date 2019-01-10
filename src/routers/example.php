@@ -1,34 +1,34 @@
 <?php
 
 /**
- * 名称：api 接口
+ * 名称：路由样例
  * 版本：1.0
  *
  */
 
-//不需要授权的公共资源
-$app->get('/api/v1/test/{id}', App\Http\Controllers\SysAuth::class . ':setToken');
+// 统一第一级pattern
+$app->group('/example', function () use ($app) {
+    // api group
+    $app->group('/api', function () use ($app) {
+        $app->group('/sub_business1', function () use ($app) {
 
-$app->post('/api/token_transfer', App\Http\Controllers\TokenTransfer::class . ':setTokenTransfer');
+            //需要检查是否是本人访问的私人资源
+            $app->group('/{uid}', function () use ($app) {
+
+            })->add(new \IdxLib\Middleware\SlimRestful\PrivateAuthCheck($app->getContainer()));
 
 
-//需要授权的资源
-$app->group('', function () use ($app) {
-    //仅需要授权的资源
-    // $app->get('/date', function ($request, $response) {
-    //     return $response->getBody()->write(date('Y-m-d H:i:s'));
-    // });
+            //需要检查是否是本角色访问的角色资源
+            $app->group('/{role}', function () use ($app) {
 
-    //需要检查是否是本人访问的私人资源
-    $app->group('/{uid}', function () use ($app) {
-        $app->get('/date', function ($request, $response) {
-            return $response->getBody()->write(date('Y-m-d H:i:s'));
-        });
-    })->add(new \IdxLib\Middleware\SlimRestful\PrivateAuthCheck($app->getContainer()));
+            })->add(new \IdxLib\Middleware\SlimRestful\RoleAuthCheck($app->getContainer()));
 
-    //需要检查是否是本角色访问的角色资源
-    $app->group('/{role}', function () use ($app) {
+        })->add(new \IdxLib\Middleware\SlimRestful\BasicAuthCheck($app->getContainer()));//验证api权限
 
-    })->add(new \IdxLib\Middleware\SlimRestful\RoleAuthCheck($app->getContainer()));
+    })->add(new \IdxLib\Middleware\SlimRestful\RequestAndResponse());//统一处理返回结果
 
-})->add(new \IdxLib\Middleware\SlimRestful\BasicAuthCheck($app->getContainer()));
+    // web_page group
+    $app->group('/web_page', function () use ($app) {
+
+    });
+});
