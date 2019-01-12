@@ -19,15 +19,17 @@ class YibanResetPass
 
     /**
      * 查询
-     * @param int $start 查询开始的的偏移量
-     * @param int $limit 想要获取的数量
+     * @param $params
      * @return mixed
      */
-    public function lists($start, $limit)
+    public function lists($params)
     {
         $ybResetPassOrm = new YbResetPass();
+        if (isset($params['deal_code'])) {
+            $ybResetPassOrm = $ybResetPassOrm->where('deal_code', '=', $params['deal_code']);
+        }
         return array(
-            'rows' => $ybResetPassOrm->skip($start)->take($limit)->get()->toArray(),
+            'rows' => $ybResetPassOrm->skip($params['start'])->take($params['limit'])->get()->toArray(),
             'total' => $ybResetPassOrm->count()
         );
     }

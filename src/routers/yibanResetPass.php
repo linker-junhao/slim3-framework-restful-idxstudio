@@ -15,6 +15,7 @@ $app->group('/yiban', function () use ($app) {
         $app->group('', function () use ($app) {
             //重置密码
             $app->group('/reset_pass', function () use ($app) {
+                $app->get('/{status}', App\Http\Controllers\YibanResetPass::class . ':dataCollection');
                 $app->get('', App\Http\Controllers\YibanResetPass::class . ':dataCollection');
                 $app->post('', App\Http\Controllers\YibanResetPass::class . ':dataAppend');
                 $app->put('', App\Http\Controllers\YibanResetPass::class . ':dataModify');

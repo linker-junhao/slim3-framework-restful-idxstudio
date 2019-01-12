@@ -62,8 +62,7 @@ class TokenTransfer extends AbstractController
         } else {
             $tokenTransfer = new AuthTokenTransfer();
             IDXResponse::setBodyData($tokenTransfer->getTokenTransferMapList(
-                $request->getQueryParam('start'),
-                $request->getQueryParam('limit')
+                $request->getQueryParams()
             ));
             IDXResponse::setBodyStatus(true);
             IDXResponse::setBodyCode(200);

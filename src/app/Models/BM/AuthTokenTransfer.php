@@ -145,15 +145,17 @@ class AuthTokenTransfer
 
     /**
      * 查询映射列表
-     * @param int $start 查询开始的的偏移量
-     * @param int $limit 想要获取的数量
+     * @param $params
      * @return mixed
      */
-    public function getTokenTransferMapList($start, $limit)
+    public function getTokenTransferMapList($params)
     {
         $subAuthORM = new SubAuth();
+        if (isset($params['site_name'])) {
+            $subAuthORM = $subAuthORM->where('site_name', 'like', '%' . $params['site_name'] . '%');
+        }
         return array(
-            'rows' => $subAuthORM->skip($start)->take($limit)->get()->toArray(),
+            'rows' => $subAuthORM->skip($params['start'])->take($params['limit'])->get()->toArray(),
             'total' => $subAuthORM->count()
         );
     }

@@ -19,28 +19,6 @@ use Slim\Http\Response;
 class YibanResetPass extends AbstractController
 {
     /**
-     * 基于传入的state参数重定向至目标应用地址并带上access_token参数
-     * @param Request $request
-     * @param Response $response
-     * @param array $args
-     * @return Response
-     */
-    public function tokenTransferRedirect(Request $request, Response $response, array $args)
-    {
-        $tokenTransfer = new AuthTokenTransfer();
-        $yibanApi = new YibanApi();
-        $targetAppUrl = $tokenTransfer->getSubAuthUrlByState($request->getQueryParam('state'));
-        $token = $yibanApi->getYibanAccessTokenByCode($request->getQueryParam('code'),
-            'c09da94882a3eefb',
-            'd5ba187dfc60ee1df04cf5c721546117',
-            'http://localhost:8888/token_transfer/distribute'
-        );
-        $this->ci->view->render($response, 'redirectToApp.twig', array('redirectUrl' => $targetAppUrl . '?token=' . $token->access_token));
-        return $response;
-        //return $response->withRedirect($url, 301);
-    }
-
-    /**
      * 返回查询的数据集
      * @param Request $request
      * @param Response $response
@@ -61,9 +39,12 @@ class YibanResetPass extends AbstractController
         } else {
             $bm = new \App\Models\BM\YibanResetPass();
             HandlerSetIDXResponseErr::setErr200();
+            $params = $request->getQueryParams();
+            if (($deal_code = $request->getAttribute('route')->getArgument('status')) != null) {
+                $params['deal_code'] = $deal_code;
+            }
             IDXResponse::setBodyData($bm->lists(
-                $request->getQueryParam('start'),
-                $request->getQueryParam('limit')
+                $params
             ));
         }
         return $response;
