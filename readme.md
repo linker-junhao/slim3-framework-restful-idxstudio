@@ -1,0 +1,9 @@
+# 工程构建注意事项
+## git
+### ignore
+* nodejs库`node_modules`文件夹
+* composer库`vendor`文件夹
+* 工程配置信息文件夹，比如`.vscode`,`.idea`
+* 密码配置相关文件夹
+* 测试文件夹
+* 日志文件夹
