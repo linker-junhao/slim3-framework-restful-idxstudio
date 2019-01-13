@@ -12,4 +12,5 @@ $app->group('', function () use ($app) {
     require 'tokenTransfer.php';
     require 'yibanCrxToolBox.php';
     require 'yibanResetPass.php';
+    require 'SysAccessLog.php';
 })->add(new \IdxLib\Middleware\Logger\AccessLogger($app->getContainer()));

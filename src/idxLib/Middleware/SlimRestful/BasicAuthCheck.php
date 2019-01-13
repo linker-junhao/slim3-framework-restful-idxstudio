@@ -33,6 +33,7 @@
 namespace IdxLib\Middleware\SlimRestful;
 
 use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
+use Psr\Container\ContainerInterface;
 
 class BasicAuthCheck
 {
@@ -41,11 +42,10 @@ class BasicAuthCheck
 
     /**
      * reveive the container object when class object build
-     * @param \Slim\Container $container
+     * @param ContainerInterface $container
      * @param string $authHeaderName
-     * @throws \Interop\Container\Exception\ContainerException
      */
-    public function __construct(\Slim\Container $container, string $authHeaderName = 'Authorization')
+    public function __construct(ContainerInterface $container, string $authHeaderName = 'Authorization')
     {
         //配置determineRouteBeforeAppMiddleware为true
         $container->get('settings')->replace(array('determineRouteBeforeAppMiddleware' => true));
