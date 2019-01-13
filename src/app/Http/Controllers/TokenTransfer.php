@@ -36,7 +36,6 @@ class TokenTransfer extends AbstractController
         );
         $this->ci->view->render($response, 'redirectToApp.twig', array('redirectUrl' => $targetAppUrl . '?token=' . $token->access_token));
         return $response;
-        //return $response->withRedirect($url, 301);
     }
 
     /**

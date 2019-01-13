@@ -1,0 +1,22 @@
+{% extends "layout.twig" %}
+{% import 'MACROS.twig' as MACROS %}
+{% block style_tags %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="">
+    <link rel="stylesheet" href="{{ MACROS.appsSiteName }}/src/style/apps.css"/>
+{% endblock %}
+{% block body %}
+    <h3>
+        应用列表
+    </h3>
+    <ul class="apps-list">
+        {% for app in data.rows %}
+            <li class="app-item">
+                <a class="app-href" href="{{ app.app_url }}">
+                    <span class="app-icon"><img src="{{ app.img_url }}"/></span>
+                    <span class="app-name">{{ app.app_name }}</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
