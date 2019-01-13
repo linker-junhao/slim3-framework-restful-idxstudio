@@ -9,6 +9,7 @@
 4. 每一级pattern仅描述一个事物，比如`reset_pass/apply`不能写作`reset_pass_apply`。
 5. 路由patter使用下划线分割写法。
 6. 清晰注释每个路由的业务功能。
+7. 在routerGate.php文件中require_once()引入路由文件。
 ``` PHP
 // 统一第一级pattern
 $app->group('/yiban', function () use ($app) {
