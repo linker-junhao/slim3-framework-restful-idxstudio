@@ -40,9 +40,6 @@ class YibanResetPass extends AbstractController
             $bm = new \App\Models\BM\YibanResetPass();
             HandlerSetIDXResponseErr::setErr200();
             $params = $request->getQueryParams();
-            if (($deal_code = $request->getAttribute('route')->getArgument('status')) != null) {
-                $params['deal_code'] = $deal_code;
-            }
             IDXResponse::setBodyData($bm->lists(
                 $params
             ));

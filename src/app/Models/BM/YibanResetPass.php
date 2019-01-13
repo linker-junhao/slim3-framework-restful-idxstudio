@@ -25,9 +25,13 @@ class YibanResetPass
     public function lists($params)
     {
         $ybResetPassOrm = new YbResetPass();
-        if (isset($params['deal_code'])) {
+        if (isset($params['deal_code']) && $params['deal_code'] != '') {
             $ybResetPassOrm = $ybResetPassOrm->where('deal_code', '=', $params['deal_code']);
         }
+        if (isset($params['stu_name']) && $params['stu_name'] != '') {
+            $ybResetPassOrm = $ybResetPassOrm->where('stu_name', 'like', '%' . $params['stu_name'] . '%');
+        }
+
         return array(
             'rows' => $ybResetPassOrm->skip($params['start'])->take($params['limit'])->get()->toArray(),
             'total' => $ybResetPassOrm->count()
