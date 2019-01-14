@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BM\AuthTokenTransfer;
 use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
+use IdxLib\Standard\BindViewData\BindViewData;
 use IdxLib\util\FormValidation\Validation;
 use IdxLib\Util\YibanApi\YibanApi;
 use Slim\Http\Request;
@@ -27,14 +28,31 @@ class TokenTransfer extends AbstractController
     public function tokenTransferRedirect(Request $request, Response $response, array $args)
     {
         $tokenTransfer = new AuthTokenTransfer();
-        $yibanApi = new YibanApi();
-        $targetAppUrl = $tokenTransfer->getSubAuthUrlByState($request->getQueryParam('state'));
-        $token = $yibanApi->getYibanAccessTokenByCode($request->getQueryParam('code'),
-            'c09da94882a3eefb',
-            'd5ba187dfc60ee1df04cf5c721546117',
-            'http://localhost:8888/token_transfer/distribute'
-        );
-        $this->ci->view->render($response, 'redirectToApp.twig', array('redirectUrl' => $targetAppUrl . '?token=' . $token->access_token));
+        $targetApp = $tokenTransfer->getSubAuthInfoByState($request->getQueryParam('state'));
+
+        $bindViewData = new BindViewData();
+        if (isset($targetApp->sub_auth_url)) {
+            $yibanApi = new YibanApi();
+            $token = $yibanApi->getYibanAccessTokenByCode($request->getQueryParam('code'),
+                'c09da94882a3eefb',
+                'd5ba187dfc60ee1df04cf5c721546117',
+                'http://localhost:8888/token_transfer/web_page/token_redirect'
+            );
+            if (isset($token->access_token)) {
+                $bindViewData->setData(
+                    array(
+                        'redirectUrl' => $targetApp->sub_auth_url . '?token=' . $token->access_token,
+                        'targetName' => $targetApp->site_name
+                    )
+                )->setStatus(true);
+            } else {
+                $bindViewData->setError('您的授权已过期，请重新登陆！')->setStatus(false);
+            }
+        } else {
+            $bindViewData->setError('可能由于该目标应用被删除或禁用，没有找到该目标应用!')->setStatus(false);
+        }
+
+        $this->ci->view->render($response, 'tokenRedirectToApp.twig', $bindViewData->toArray());
         return $response;
     }
 

@@ -1,0 +1,36 @@
+.container {
+    max-width: 600px;
+    padding: 15% 20px 60px 20px;
+}
+
+.color-char-g {
+    color: #edd9c0;
+}
+
+.color-char-o {
+    color: #c9d8c5
+}
+
+.color-char-d {
+    color: #a8b6bf
+}
+
+.color-char-t {
+    color: #7d4627
+}
+
+.color-char-w {
+    color: #e62739
+}
+
+.color-char-h {
+    color: #e1e8f0
+}
+
+.color-char-o2 {
+    color: #9068be
+}
+
+.color-char-ps {
+    color: #6ed3cf
+}

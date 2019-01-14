@@ -137,10 +137,10 @@ class AuthTokenTransfer
      * @param $stateValue
      * @return mixed
      */
-    public function getSubAuthUrlByState($stateValue)
+    public function getSubAuthInfoByState($stateValue)
     {
         $subAuth = new SubAuth();
-        return $subAuth->where('state_value', $stateValue)->first()->sub_auth_url;
+        return $subAuth->where('state_value', '=', $stateValue)->where('enable', '=', '1')->first();
     }
 
     /**

@@ -9,6 +9,7 @@
 
 namespace IdxLib\Util\YibanApi;
 
+use App\Models\BM\Util\CurlRequest;
 
 class YibanApi
 {

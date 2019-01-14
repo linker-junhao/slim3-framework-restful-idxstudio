@@ -42,26 +42,32 @@ class BindViewData
 
     /**
      * @param mixed $data
+     * @return BindViewData
      */
     public function setData($data)
     {
         $this->data = $data;
+        return $this;
     }
 
     /**
      * @param mixed $error
+     * @return BindViewData
      */
     public function setError($error)
     {
         $this->error = $error;
+        return $this;
     }
 
     /**
      * @param mixed $status
+     * @return BindViewData
      */
     public function setStatus($status)
     {
         $this->status = $status;
+        return $this;
     }
 
     /**
