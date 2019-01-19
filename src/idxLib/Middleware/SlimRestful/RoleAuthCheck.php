@@ -44,12 +44,12 @@ class RoleAuthCheck
         //检查是否存在相关信息
         if($tokenCollection != false){
             if($request->getAttribute('route')->getArgument($this->roleArgumentName) != $tokenCollection->first()->role){
-                HandlerSetIDXResponseErr::setErr403();
+                HandlerSetIDXResponseErr::setStatus403();
             } else {
                 $response = $next($request, $response);
             }
         }else{
-            HandlerSetIDXResponseErr::setErr500();
+            HandlerSetIDXResponseErr::setStatus500();
         }
 
         return $response;

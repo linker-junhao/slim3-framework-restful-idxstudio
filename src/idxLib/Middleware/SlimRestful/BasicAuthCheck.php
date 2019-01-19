@@ -120,13 +120,13 @@ class BasicAuthCheck
         $authHeaderArray = $request->getHeader('Authorization');
         if (count($authHeaderArray) == 0) {
             //check essential header if exist 检查该请求是否有token
-            HandlerSetIDXResponseErr::setErr400();
+            HandlerSetIDXResponseErr::setStatus400();
         } elseif (!$this->checkTokenAuth($request->getHeader($this->authHeaderName)[0])) {
             //check token authorized 检查该请求token是否合法
-            HandlerSetIDXResponseErr::setErr401();
+            HandlerSetIDXResponseErr::setStatus401();
         } elseif (!$this->checkResourceAuthorized($request->getAttribute('route'))) {
             //check resource authorized to the token 检查资源是否被授予该token
-            HandlerSetIDXResponseErr::setErr403();
+            HandlerSetIDXResponseErr::setStatus403();
         } else {
             //can be access by this token 基本检查确认可以访问该资源
             $response = $next($request, $response);

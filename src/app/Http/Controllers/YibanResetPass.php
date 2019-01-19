@@ -33,10 +33,10 @@ class YibanResetPass extends AbstractController
             )
         );
         if (!$valid->getIntegratedStatus()) {
-            HandlerSetIDXResponseErr::setErr400();
+            HandlerSetIDXResponseErr::setStatus400();
         } else {
             $bm = new \App\Models\BM\YibanResetPass();
-            HandlerSetIDXResponseErr::setErr200();
+            HandlerSetIDXResponseErr::setStatus200();
             $params = $request->getQueryParams();
             IDXResponse::setBodyData($bm->lists(
                 $params

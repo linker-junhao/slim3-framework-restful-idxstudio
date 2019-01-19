@@ -39,12 +39,12 @@ class PrivateAuthCheck
         $tokenCollection = SlimRestfulCache::getDefaultCache('tokenCollection');
         if($tokenCollection != false){
             if($request->getAttribute('route')->getArgument($this->UIDArgumentName) != $tokenCollection->first()->uid){
-                HandlerSetIDXResponseErr::setErr403();
+                HandlerSetIDXResponseErr::setStatus403();
             } else {
                 $response = $next($request, $response);
             }
         }else{
-            HandlerSetIDXResponseErr::setErr500();
+            HandlerSetIDXResponseErr::setStatus500();
         }
         return $response;
     }

@@ -14,14 +14,14 @@ use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 
 class HandlerSetIDXResponseErr
 {
-    public static function setErr200()
+    public static function setStatus200()
     {
         IDXResponse::setBodyCode(200);
         IDXResponse::setHttpStatusCode(200);
         IDXResponse::setBodyStatus(true);
     }
 
-    public static function setErr400()
+    public static function setStatus400()
     {
         IDXResponse::setBodyData(array(
             'message' => "malformed request, no Authorization header"
@@ -32,7 +32,7 @@ class HandlerSetIDXResponseErr
         IDXResponse::setBodyErr('malformed request, no Authorization header');
     }
 
-    public static function setErr401()
+    public static function setStatus401()
     {
         IDXResponse::setBodyData(array(
             'message' => "unAuthorized"
@@ -43,7 +43,7 @@ class HandlerSetIDXResponseErr
         IDXResponse::setBodyErr('unAuthorized');
     }
 
-    public static function setErr403()
+    public static function setStatus403()
     {
         IDXResponse::setBodyData(array(
             'message' => "you do not have permission to access this resource"
@@ -55,7 +55,7 @@ class HandlerSetIDXResponseErr
 
     }
 
-    public static function setErr500()
+    public static function setStatus500()
     {
         IDXResponse::setBodyData(array(
             'message' => "Internal Server Error"

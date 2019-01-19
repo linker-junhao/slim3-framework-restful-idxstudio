@@ -11,13 +11,8 @@
  */
 namespace App\Http\Controllers;
 
-use Interop\Container\ContainerInterface;
 
 abstract class AbstractController
 {
-    protected $ci;
-    public function __construct(ContainerInterface $ci)
-    {
-        $this->ci = $ci;
-    }
+
 }

@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BM\AuthTokenTransfer;
 use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
+use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
 use IdxLib\Standard\BindViewData\BindViewData;
 use IdxLib\util\FormValidation\Validation;
 use IdxLib\Util\YibanApi\YibanApi;
@@ -73,17 +74,13 @@ class TokenTransfer extends AbstractController
             )
         );
         if (!$valid->getIntegratedStatus()) {
-            IDXResponse::setBodyStatus(false);
-            IDXResponse::setBodyCode(400);
-            IDXResponse::setHttpStatusCode(400);
+            HandlerSetIDXResponseErr::setStatus400();
         } else {
             $tokenTransfer = new AuthTokenTransfer();
             IDXResponse::setBodyData($tokenTransfer->getTokenTransferMapList(
                 $request->getQueryParams()
             ));
-            IDXResponse::setBodyStatus(true);
-            IDXResponse::setBodyCode(200);
-            IDXResponse::setHttpStatusCode(200);
+            HandlerSetIDXResponseErr::setStatus200();
         }
         return $response;
     }
