@@ -7,6 +7,7 @@ namespace IdxLib\Middleware\SlimRestful;
 
 use Exception;
 use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
+use IdxLib\Middleware\SlimRestful\Util\SlimRestfulCache;
 
 class PrivateAuthCheck
 {
@@ -32,12 +33,10 @@ class PrivateAuthCheck
      * @param  callable $next Next Middleware
      *
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Interop\Container\Exception\ContainerException
      */
     public function __invoke($request, $response, $next)
     {
-        $restfulCache = $this->container->get('slimRestfulCache');
-        $tokenCollection = $restfulCache->getDefaultCache('tokenCollection');
+        $tokenCollection = SlimRestfulCache::getDefaultCache('tokenCollection');
         if($tokenCollection != false){
             if($request->getAttribute('route')->getArgument($this->UIDArgumentName) != $tokenCollection->first()->uid){
                 HandlerSetIDXResponseErr::setErr403();

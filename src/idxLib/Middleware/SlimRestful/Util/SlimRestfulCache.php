@@ -2,16 +2,17 @@
 /**
  * 被实例化后的对象存储到了slim container中
  */
+
 namespace IdxLib\Middleware\SlimRestful\Util;
 
 class SlimRestfulCache
 {
-    private $defaultCache;
-    private $myCache;
+    private static $defaultCache = array('tokenCollection' => false);
+    private static $myCache = array();
+
     public function __construct()
     {
-        $this->defaultCache = array('tokenCollection' => false);
-        $this->myCache = array();
+
     }
 
     /**
@@ -19,10 +20,10 @@ class SlimRestfulCache
      * @param string $cacheName
      * @return bool|mixed
      */
-    public function getDefaultCache(string $cacheName)
+    public static function getDefaultCache(string $cacheName)
     {
-        if (array_key_exists($cacheName, $this->defaultCache)) {
-            return $this->defaultCache[$cacheName];
+        if (array_key_exists($cacheName, self::$defaultCache)) {
+            return self::$defaultCache[$cacheName];
         } else {
             return false;
         }
@@ -33,9 +34,9 @@ class SlimRestfulCache
      * @param string $cacheName
      * @param $cacheValue
      */
-    public function setDefaultCache(string $cacheName, $cacheValue)
+    public static function setDefaultCache(string $cacheName, $cacheValue)
     {
-        $this->defaultCache[$cacheName] = $cacheValue;
+        self::$defaultCache[$cacheName] = $cacheValue;
     }
 
     /**
@@ -43,9 +44,9 @@ class SlimRestfulCache
      * @param string $cacheName
      * @return bool|mixed
      */
-    public function getMyCache(string $cacheName)
+    public static function getMyCache(string $cacheName)
     {
-        return array_key_exists($cacheName, $this->myCache) ? $this->myCache[$cacheName] : false;
+        return array_key_exists($cacheName, self::$myCache) ? self::$myCache[$cacheName] : false;
     }
 
     /**
@@ -53,8 +54,8 @@ class SlimRestfulCache
      * @param string $cacheName
      * @param $cacheValue
      */
-    public function setMyCache(string $cacheName, $cacheValue)
+    public static function setMyCache(string $cacheName, $cacheValue)
     {
-        $this->myCache[$cacheName] = $cacheValue;
+        self::$myCache[$cacheName] = $cacheValue;
     }
 }

@@ -17,5 +17,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ModelAbstract extends Model
 {
-    
+    protected $connection = 'slimRestful';
 }

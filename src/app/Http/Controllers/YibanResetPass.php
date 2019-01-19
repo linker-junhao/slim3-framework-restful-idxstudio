@@ -8,11 +8,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BM\AuthTokenTransfer;
 use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
 use IdxLib\util\FormValidation\Validation;
-use IdxLib\Util\YibanApi\YibanApi;
 use Slim\Http\Request;
 use Slim\Http\Response;
 

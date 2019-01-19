@@ -33,6 +33,7 @@
 namespace IdxLib\Middleware\SlimRestful;
 
 use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
+use IdxLib\Middleware\SlimRestful\Util\SlimRestfulCache;
 use Psr\Container\ContainerInterface;
 
 class BasicAuthCheck
@@ -51,12 +52,9 @@ class BasicAuthCheck
         $container->get('settings')->replace(array('determineRouteBeforeAppMiddleware' => true));
         //define error handler
         $this->errorHandlerDefine();
-        //register a cache service，将缓存对象保存到slim 容器中
-        $container['slimRestfulCache'] = function ($container) {
-            return new Util\SlimRestfulCache();
-        };
+
         //ready database 
-        Util\SlimRestfulDatabase::restfulEloquentConnectionReady($container);
+        Util\SlimRestfulDatabase::restfulEloquentConnectionReady($container->get('settings')['slimRestfulSetting']['db']);
         $this->container = $container;
         $this->authHeaderName = $authHeaderName;
     }
@@ -79,7 +77,6 @@ class BasicAuthCheck
      *
      * @param string $token
      * @return bool
-     * @throws \Interop\Container\Exception\ContainerException
      */
     private function checkTokenAuth(string $token)
     {
@@ -91,7 +88,7 @@ class BasicAuthCheck
             return false;
         }
         //缓存查询到的token
-        $this->container->get('slimRestfulCache')->setDefaultCache('tokenCollection', $tokenCollection);
+        SlimRestfulCache::setDefaultCache('tokenCollection', $tokenCollection);
         $token = $tokenCollection->first();
         //数据库中有该token，对比过期时间与当前时间
         if (strtotime($token->expire_time) < strtotime(date("Y-m-d h:i:s"))) {
@@ -104,7 +101,7 @@ class BasicAuthCheck
 
     private function checkResourceAuthorized($route)
     {
-        $allowedResources = json_decode($this->container->get('slimRestfulCache')->getDefaultCache('tokenCollection')->first()->allowed_resource, true);
+        $allowedResources = json_decode(SlimRestfulCache::getDefaultCache('tokenCollection')->first()->allowed_resource, true);
         $routePattern = $route->getPattern();
         return key_exists($routePattern, $allowedResources) ? in_array(strtolower($route->getMethods()[0]), $allowedResources[$routePattern]) : false;
     }
@@ -117,7 +114,6 @@ class BasicAuthCheck
      * @param  callable $next Next Middleware
      *
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Interop\Container\Exception\ContainerException
      */
     public function __invoke($request, $response, $next)
     {

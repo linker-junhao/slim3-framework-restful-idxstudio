@@ -14,10 +14,10 @@ namespace IdxLib\Middleware\SlimRestful\Util;
 
 class SlimRestfulDatabase
 {
-    public static function restfulEloquentConnectionReady($container)
+    public static function restfulEloquentConnectionReady($config)
     {
         $capsule = new \Illuminate\Database\Capsule\Manager;
-        $capsule->addConnection($container->get('settings')['slimRestfulSetting']['db']);
+        $capsule->addConnection($config, 'slimRestful');
     
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
