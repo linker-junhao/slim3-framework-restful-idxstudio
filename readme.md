@@ -15,9 +15,9 @@
 ### 程序结构
 用户-->路由-->控制器(controller)-->业务模型(BM)-->数据库对象关系映射(ORM)
 
-# 工程构建注意事项
-## git
-### ignore
+### 注意事项
+#### git
+##### .gitignore
 * nodejs库`node_modules`文件夹
 * composer库`vendor`文件夹
 * 工程配置信息文件夹，比如`.vscode`,`.idea`
