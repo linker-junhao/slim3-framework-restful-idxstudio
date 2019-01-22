@@ -36,7 +36,7 @@ $app->group('/cms', function () use ($app) {
                         });
                     });
                 });
-            });//->add(new \IdxLib\Middleware\SlimRestful\RoleAuthCheck($app->getContainer()));
+            });//->add(new \IdxLib\Middleware\SlimRestful\RoleAuthCheck($app->getContainer()));//注释掉权限验证方便测试
         });//->add(new \IdxLib\Middleware\SlimRestful\BasicAuthCheck($app->getContainer()));//验证api权限
 
     })->add(new \IdxLib\Middleware\SlimRestful\RequestAndResponse());//统一处理返回结果

@@ -27,5 +27,5 @@ $app->group('', function () use ($app) {
     require 'yibanCrxToolBox.php';
     require 'yibanResetPass.php';
     require 'SysAccessLog.php';
-    require 'cms/cmsAdmin.php';
+    require 'cms/cmsRouterExport.php';
 })->add(new \IdxLib\Middleware\Logger\AccessLogger($app->getContainer()));

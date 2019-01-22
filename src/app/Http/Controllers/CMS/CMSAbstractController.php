@@ -16,6 +16,6 @@ class CMSAbstractController extends AbstractController
 {
     protected $_ARTICLE_COVER = array(
         'save_path' => './src/img/thumb_pic/',
-        'base_url' => 'http://localhost:8080/src/img/thumb_pic/'
+        'base_url' => 'http://localhost:8888/src/img/thumb_pic/'
     );
 }
