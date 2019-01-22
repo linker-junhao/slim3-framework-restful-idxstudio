@@ -16,22 +16,22 @@ class CMSAbstractBM
 {
     protected $ORMClass = null;
 
-    protected function listsDeal(\Illuminate\Database\Eloquent\Model $orm)
+    protected function listsDeal(\Illuminate\Database\Eloquent\Model &$orm, array $params)
     {
 
     }
 
-    protected function appendDeal(\Illuminate\Database\Eloquent\Model $orm)
+    protected function appendDeal(\Illuminate\Database\Eloquent\Model &$orm, array $params)
     {
 
     }
 
-    protected function deleteDeal(\Illuminate\Database\Eloquent\Model $orm)
+    protected function deleteDeal(\Illuminate\Database\Eloquent\Model &$orm, array $params)
     {
 
     }
 
-    protected function modifyDeal(\Illuminate\Database\Eloquent\Model $orm)
+    protected function modifyDeal(\Illuminate\Database\Eloquent\Model &$orm, array $params)
     {
 
     }
@@ -48,7 +48,7 @@ class CMSAbstractBM
     public function lists($params)
     {
         $ORM = new $this->ORMClass();
-        $this->listsDeal($ORM);
+        $this->listsDeal($ORM, $params);
         return array(
             'rows' => $ORM->skip($params['start'])->take($params['limit'])->get()->toArray(),
             'total' => $ORM->count()
@@ -63,7 +63,7 @@ class CMSAbstractBM
         }
         $ORM->save();
         $ret = $ORM->toArray();
-        $this->appendDeal($ORM);
+        $this->appendDeal($ORM, $params);
         IDXResponse::setBodyCode(200);
         IDXResponse::setHttpStatusCode(200);
         IDXResponse::setBodyStatus(true);
@@ -75,7 +75,7 @@ class CMSAbstractBM
         $id = explode(',', $params['id']);
         $ORM = new $this->ORMClass();
         $ORM::destroy($id);
-        $this->deleteDeal($ORM);
+        $this->deleteDeal($ORM, $params);
         IDXResponse::setBodyCode(200);
         IDXResponse::setHttpStatusCode(200);
         IDXResponse::setBodyStatus(true);
@@ -93,7 +93,7 @@ class CMSAbstractBM
                 $ORM->$colName = $val;
             }
             $ORM->save();
-            $this->modifyDeal($ORM);
+            $this->modifyDeal($ORM, $params);
         }
         IDXResponse::setBodyCode(200);
         IDXResponse::setHttpStatusCode(200);

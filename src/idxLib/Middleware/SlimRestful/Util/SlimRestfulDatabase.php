@@ -18,10 +18,10 @@ class SlimRestfulDatabase
     {
         $capsule = new \Illuminate\Database\Capsule\Manager;
         $capsule->addConnection($config, 'slimRestful');
-    
         $capsule->setAsGlobal();
+
         $capsule->bootEloquent();
-    
+
         return $capsule;
     }
 }

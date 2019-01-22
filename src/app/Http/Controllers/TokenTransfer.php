@@ -17,7 +17,7 @@ use IdxLib\Util\YibanApi\YibanApi;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class TokenTransfer extends AbstractController
+class TokenTransfer extends AbstractController implements ApiControllerInterface
 {
     /**
      * 基于传入的state参数重定向至目标应用地址并带上access_token参数

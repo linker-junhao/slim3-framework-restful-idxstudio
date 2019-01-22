@@ -7,6 +7,7 @@ namespace IdxLib\Middleware\SlimRestful;
 
 use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
 use IdxLib\Middleware\SlimRestful\Util\SlimRestfulCache;
+use Psr\Container\ContainerInterface;
 use Slim\Exception\ContainerException;
 
 
@@ -17,10 +18,10 @@ class RoleAuthCheck
 
     /**
      * receive the container object when class object build
-     * @param \Slim\Container $c
-     * @param $roleArgumentName
+     * @param ContainerInterface $c
+     * @param string $roleArgumentName
      */
-    public function __construct(\Slim\Container $c, $roleArgumentName = 'role')
+    public function __construct(ContainerInterface $c, $roleArgumentName = 'role')
     {
         $this->container = $c;
         $this->roleArgumentName = $roleArgumentName;
@@ -34,7 +35,6 @@ class RoleAuthCheck
      * @param  callable $next Next Middleware
      *
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Interop\Container\Exception\ContainerException
      */
     public function __invoke($request, $response, $next)
     {

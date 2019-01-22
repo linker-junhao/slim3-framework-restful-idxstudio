@@ -14,7 +14,7 @@ use IdxLib\util\FormValidation\Validation;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class SysAccessLog extends AbstractController
+class SysAccessLog extends AbstractController implements ApiControllerInterface
 {
     /**
      * 返回查询的数据集

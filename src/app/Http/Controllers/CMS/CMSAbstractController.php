@@ -11,12 +11,11 @@ namespace App\Http\Controllers\CMS;
 
 
 use App\Http\Controllers\AbstractController;
-use Interop\Container\ContainerInterface;
 
 class CMSAbstractController extends AbstractController
 {
-    public function __construct(ContainerInterface $ci)
-    {
-        parent::__construct($ci);
-    }
+    protected $_ARTICLE_COVER = array(
+        'save_path' => './src/img/thumb_pic/',
+        'base_url' => 'http://localhost:8080/src/img/thumb_pic/'
+    );
 }

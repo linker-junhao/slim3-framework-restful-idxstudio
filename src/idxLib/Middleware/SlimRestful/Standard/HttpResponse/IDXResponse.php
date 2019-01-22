@@ -12,10 +12,10 @@ namespace IdxLib\Middleware\SlimRestful\Standard\HttpResponse;
 
 class IDXResponse
 {
-    public static $bodyStatus;
-    public static $bodyCode;
-    public static $bodyData;
-    public static $bodyError;
+    public static $bodyStatus = true;
+    public static $bodyCode = 200;
+    public static $bodyData = '';
+    public static $bodyError = '';
 
     public static $httpStatusCode;
 

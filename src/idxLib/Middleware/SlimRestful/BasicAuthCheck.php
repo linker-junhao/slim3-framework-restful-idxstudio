@@ -34,6 +34,7 @@ namespace IdxLib\Middleware\SlimRestful;
 
 use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
 use IdxLib\Middleware\SlimRestful\Util\SlimRestfulCache;
+use function PHPSTORM_META\type;
 use Psr\Container\ContainerInterface;
 
 class BasicAuthCheck
@@ -52,9 +53,9 @@ class BasicAuthCheck
         $container->get('settings')->replace(array('determineRouteBeforeAppMiddleware' => true));
         //define error handler
         $this->errorHandlerDefine();
-
         //ready database 
-        Util\SlimRestfulDatabase::restfulEloquentConnectionReady($container->get('settings')['slimRestfulSetting']['db']);
+        //Util\SlimRestfulDatabase::restfulEloquentConnectionReady($container->get('settings')['slimRestfulSetting']['db']);
+        // var_dump($container['db']);
         $this->container = $container;
         $this->authHeaderName = $authHeaderName;
     }

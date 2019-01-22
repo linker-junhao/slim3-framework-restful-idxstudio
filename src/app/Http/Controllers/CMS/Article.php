@@ -1,30 +1,26 @@
 <?php
-namespace App\Http\Controllers;
+/**
+ * Created by PhpStorm.
+ * User : Linker
+ * Email: linker-junhao@outlook.com
+ * Date : 2019/1/19
+ * Time : 17:43
+ */
 
+namespace App\Http\Controllers\CMS;
+
+
+use App\Http\Controllers\ApiControllerInterface;
 use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
-use IdxLib\Standard\BindViewData\BindViewData;
 use IdxLib\util\FormValidation\Validation;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class YibanAppCollection extends AbstractController implements ApiControllerInterface
+class Article extends CMSAbstractController implements ApiControllerInterface
 {
-    public function appCollectionListWebPage(Request $request, Response $response, array $args)
-    {
-        $bindViewData = new BindViewData();
-        $bindViewData->setStatus(true);
-        $bm = new \App\Models\BM\YibanAppCollection();
-        $bindViewData->setData($bm->lists(
-            array(
-                'start' => 0,
-                'limit' => 500
-            )
-        ));
-        $bindViewData->setStatus(true);
-        $this->ci->view->render($response, 'appCollection.twig', $bindViewData->toArray());
-        return $response;
-    }
+    // 指定基本操作BM类
+    private $BMClass = \App\Models\BM\CMS\Article::class;
 
     /**
      * 返回查询的数据集
@@ -45,7 +41,7 @@ class YibanAppCollection extends AbstractController implements ApiControllerInte
         if (!$valid->getIntegratedStatus()) {
             HandlerSetIDXResponseErr::setStatus400();
         } else {
-            $bm = new \App\Models\BM\YibanAppCollection();
+            $bm = new $this->BMClass();
             HandlerSetIDXResponseErr::setStatus200();
             $params = $request->getQueryParams();
             IDXResponse::setBodyData($bm->lists(
@@ -57,22 +53,42 @@ class YibanAppCollection extends AbstractController implements ApiControllerInte
 
     public function dataAppend(Request $request, Response $response, array $args)
     {
-        $bm = new \App\Models\BM\YibanAppCollection();
+        $bm = new $this->BMClass();
         $bm->append($request->getParsedBody());
         return $response;
     }
 
     public function dataModify(Request $request, Response $response, array $args)
     {
-        $bm = new \App\Models\BM\YibanAppCollection();
+        $bm = new $this->BMClass();
         $bm->modify($request->getParsedBody());
         return $response;
     }
 
     public function dataDelete(Request $request, Response $response, array $args)
     {
-        $bm = new \App\Models\BM\YibanAppCollection();
+        $bm = new $this->BMClass();
         $bm->delete($request->getQueryParams());
         return $response;
+    }
+
+    public function thumbPicFileAppend(Request $request, Response $response, array $args)
+    {
+        $files = $request->getUploadedFiles();
+        if (empty($files['file'])) {
+            throw new \Exception('Expected a file');
+        }
+        $thumbPic = $files['file'];
+        if ($thumbPic->getError() === UPLOAD_ERR_OK) {
+            $uploadFileName = $thumbPic->getClientFilename();
+            $thumbPic->moveTo($this->_ARTICLE_COVER['save_path'] . $uploadFileName);
+            HandlerSetIDXResponseErr::setStatus200();
+            IDXResponse::setBodyData(array(
+                'url' => $this->_ARTICLE_COVER['base_url'] . urlencode($uploadFileName)
+            ));
+        } else {
+            HandlerSetIDXResponseErr::setStatus500();
+            IDXResponse::setBodyErr($thumbPic->getError());
+        }
     }
 }

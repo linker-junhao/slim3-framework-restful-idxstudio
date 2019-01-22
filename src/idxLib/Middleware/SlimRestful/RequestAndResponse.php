@@ -31,7 +31,11 @@ class RequestAndResponse
         $response = $next($request, $response);
 
         //TODO 判断请求的数据类型json/xml，并做出相应数据格式的回应，目前仅json
-        $response = $response->withHeader('Content-type', 'application/json');
+        $response = $response
+            ->withHeader('Content-type', 'application/json')
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');;
         $response->getBody()->write(Standard\HttpResponse\IDXResponse::bodyToJson());
 
         return $response->withStatus(Standard\HttpResponse\IDXResponse::$httpStatusCode);

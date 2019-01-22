@@ -10,6 +10,7 @@
 namespace IdxLib\Middleware\Logger;
 
 
+use IdxLib\Middleware\SlimRestful\Util\SlimRestfulDatabase;
 use IdxLib\Util\Network\Network;
 use Psr\Container\ContainerInterface;
 
