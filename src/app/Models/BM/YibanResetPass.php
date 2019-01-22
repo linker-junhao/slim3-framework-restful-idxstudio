@@ -11,12 +11,8 @@ namespace App\Models\BM;
 use App\Models\ORM\YbResetPass;
 use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 
-class YibanResetPass
+class YibanResetPass extends AbstractBM
 {
-    public function __construct()
-    {
-    }
-
     /**
      * 查询
      * @param $params

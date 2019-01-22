@@ -13,12 +13,8 @@ namespace App\Models\BM;
 use App\Models\ORM\SysAccessLogORM;
 use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 
-class SysAccessLog
+class SysAccessLog extends AbstractBM
 {
-    public function __construct()
-    {
-    }
-
     /**
      * 查询
      * @param $params

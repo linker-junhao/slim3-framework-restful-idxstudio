@@ -13,12 +13,8 @@ namespace App\Models\BM;
 use App\Models\ORM\YbAppCollectionORM;
 use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 
-class YibanAppCollection
+class YibanAppCollection extends AbstractBM
 {
-    public function __construct()
-    {
-    }
-
     /**
      * 查询
      * @param $params

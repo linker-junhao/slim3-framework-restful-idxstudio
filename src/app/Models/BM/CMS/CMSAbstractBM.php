@@ -10,9 +10,10 @@
 namespace App\Models\BM\CMS;
 
 
+use App\Models\BM\AbstractBM;
 use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 
-class CMSAbstractBM
+class CMSAbstractBM extends AbstractBM
 {
     protected $ORMClass = null;
 

@@ -13,12 +13,8 @@ use App\Models\ORM\TableYibanCrxToolboxAdmin;
 use IdxLib\Middleware\SlimRestful\AuthToken;
 use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 
-class SysAdmin
+class SysAdmin extends AbstractBM
 {
-    public function __construct()
-    {
-
-    }
 
     public function login($container, $bodyParams)
     {
