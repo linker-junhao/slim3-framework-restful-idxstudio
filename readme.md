@@ -1,3 +1,25 @@
+### 起步
+#### 1. 配置文件
+将配置文件放到bootstrap目录下
+#### 2. 安装依赖
+在src目录下运行`composer install`
+#### 3. 运行
+* 使用PHP内建服务器运行
+
+  执行"yourPath/php.exe" -S localhost:8888 -t "项目路径\src\public"
+* 配置PHP Storm执行（推荐）
+
+  详见：https://www.jianshu.com/p/6a60eada87c9
+#### 编程
+我已经做了文章的管理的api
+* 文件列表：
+  1. app/Http/Controller/CMS/Article.php
+  2. app/Models/BM/CMS/Article.php
+  3. app/Models/ORM/CMS/ArticleORM.php
+  4. routers/cms/cmsArticle.php[路由，新增路由文件请在cmsRouterExport中require包含]
+
+
+
 ### 目录结构
 #### /app
 存放有控制器类、业务模型类、数据库对象关系映射
