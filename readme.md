@@ -10,7 +10,7 @@
 * 配置PHP Storm执行（推荐）
 
   详见：https://www.jianshu.com/p/6a60eada87c9
-#### 编程
+#### 4. 编程
 我已经做了文章的管理的api
 * 文件列表：
   1. app/Http/Controller/CMS/Article.php
