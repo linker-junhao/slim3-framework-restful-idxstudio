@@ -11,7 +11,7 @@ namespace App\Models\BM;
 
 use App\Models\ORM\TableYibanCrxToolboxAdmin;
 use IdxLib\Middleware\SlimRestful\AuthToken;
-use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
+use IdxLib\Standard\HttpResponse\IDXResponse;
 
 class SysAdmin extends AbstractBM
 {

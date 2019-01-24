@@ -6,7 +6,7 @@
 namespace IdxLib\Middleware\SlimRestful;
 
 use Exception;
-use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
+use IdxLib\Standard\HttpResponse\HandlerSetIDXResponseErr;
 use IdxLib\Middleware\SlimRestful\Util\SlimRestfulCache;
 
 class PrivateAuthCheck

@@ -8,8 +8,8 @@
 
 namespace App\Http\Controllers;
 
-use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
-use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
+use IdxLib\Standard\HttpResponse\IDXResponse;
+use IdxLib\Standard\HttpResponse\HandlerSetIDXResponseErr;
 use IdxLib\util\FormValidation\Validation;
 use Slim\Http\Request;
 use Slim\Http\Response;

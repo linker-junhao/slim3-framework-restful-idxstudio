@@ -5,7 +5,7 @@
 
 namespace IdxLib\Middleware\SlimRestful;
 
-use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
+use IdxLib\Standard\HttpResponse\HandlerSetIDXResponseErr;
 use IdxLib\Middleware\SlimRestful\Util\SlimRestfulCache;
 use Psr\Container\ContainerInterface;
 use Slim\Exception\ContainerException;

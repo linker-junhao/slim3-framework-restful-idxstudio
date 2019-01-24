@@ -23,7 +23,7 @@ $app->group('/cms', function () use ($app) {
                     $app->put('', \App\Http\Controllers\CMS\Article::class . ':dataModify');
                     $app->delete('', \App\Http\Controllers\CMS\Article::class . ':dataDelete');
                     $app->options('', function ($request, $response, array $args) {
-                        \IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr::setStatus200();
+                        \IdxLib\Standard\HttpResponse\HandlerSetIDXResponseErr::setStatus200();
                         return $response;
                     });
 
@@ -31,7 +31,7 @@ $app->group('/cms', function () use ($app) {
                         //add some route
                         $app->post('', \App\Http\Controllers\CMS\Article::class . ':thumbPicFileAppend');
                         $app->options('', function ($request, $response, array $args) {
-                            \IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr::setStatus200();
+                            \IdxLib\Standard\HttpResponse\HandlerSetIDXResponseErr::setStatus200();
                             return $response;
                         });
                     });

@@ -9,8 +9,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BM\AuthTokenTransfer;
-use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
-use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
+use IdxLib\Standard\HttpResponse\IDXResponse;
+use IdxLib\Standard\HttpResponse\HandlerSetIDXResponseErr;
 use IdxLib\Standard\BindViewData\BindViewData;
 use IdxLib\util\FormValidation\Validation;
 use IdxLib\Util\YibanApi\YibanApi;

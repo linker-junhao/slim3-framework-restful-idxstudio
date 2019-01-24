@@ -9,7 +9,7 @@
 namespace App\Models\BM;
 
 use App\Models\ORM\YbResetPass;
-use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
+use IdxLib\Standard\HttpResponse\IDXResponse;
 
 class YibanResetPass extends AbstractBM
 {

@@ -11,8 +11,8 @@ namespace App\Http\Controllers\CMS;
 
 
 use App\Http\Controllers\ApiControllerInterface;
-use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
-use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
+use IdxLib\Standard\HttpResponse\IDXResponse;
+use IdxLib\Standard\HttpResponse\HandlerSetIDXResponseErr;
 use IdxLib\util\FormValidation\Validation;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -82,6 +82,7 @@ class Article extends CMSAbstractController implements ApiControllerInterface
         if ($thumbPic->getError() === UPLOAD_ERR_OK) {
             $uploadFileName = $thumbPic->getClientFilename();
             $thumbPic->moveTo($this->_ARTICLE_COVER['save_path'] . $uploadFileName);
+            // 设置response
             HandlerSetIDXResponseErr::setStatus200();
             IDXResponse::setBodyData(array(
                 'url' => $this->_ARTICLE_COVER['base_url'] . urlencode($uploadFileName)

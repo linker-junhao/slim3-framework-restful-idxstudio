@@ -11,7 +11,7 @@ namespace App\Models\BM\CMS;
 
 
 use App\Models\BM\AbstractBM;
-use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
+use IdxLib\Standard\HttpResponse\IDXResponse;
 
 class CMSAbstractBM extends AbstractBM
 {

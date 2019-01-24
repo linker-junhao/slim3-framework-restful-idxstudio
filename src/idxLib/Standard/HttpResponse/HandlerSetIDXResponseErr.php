@@ -7,10 +7,8 @@
  * Time : 18:47
  */
 
-namespace IdxLib\Middleware\SlimRestful\Util;
+namespace IdxLib\Standard\HttpResponse;
 
-
-use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
 
 class HandlerSetIDXResponseErr
 {

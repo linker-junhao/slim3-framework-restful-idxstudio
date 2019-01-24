@@ -32,7 +32,7 @@
 
 namespace IdxLib\Middleware\SlimRestful;
 
-use IdxLib\Middleware\SlimRestful\Util\HandlerSetIDXResponseErr;
+use IdxLib\Standard\HttpResponse\HandlerSetIDXResponseErr;
 use IdxLib\Middleware\SlimRestful\Util\SlimRestfulCache;
 use function PHPSTORM_META\type;
 use Psr\Container\ContainerInterface;

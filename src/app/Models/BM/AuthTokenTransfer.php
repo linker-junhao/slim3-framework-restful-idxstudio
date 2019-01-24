@@ -9,7 +9,7 @@
 namespace App\Models\BM;
 
 use App\Models\ORM\SubAuth;
-use IdxLib\Middleware\SlimRestful\Standard\HttpResponse\IDXResponse;
+use IdxLib\Standard\HttpResponse\IDXResponse;
 
 class AuthTokenTransfer extends AbstractBM
 {
